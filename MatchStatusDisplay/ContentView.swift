@@ -9,16 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack {
+            Color.black
+                .ignoresSafeArea()
+            Image(.iPadProScreensaver)
+                .resizable()
+                .scaledToFit()
+                .ignoresSafeArea()
         }
-        .padding()
+        .statusBar(hidden: true)
+        .onAppear {
+            UIApplication.shared.isIdleTimerDisabled = true
+        }
     }
 }
 
-#Preview {
+#Preview(traits: .landscapeLeft) {
     ContentView()
 }

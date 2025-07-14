@@ -7,19 +7,32 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		E452D9A02E258F8300D30C66 /* RobocubsMissionControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RobocubsMissionControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E452D9B22E258FC400D30C66 /* MatchStatusDisplay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MatchStatusDisplay.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E452D9C12E259C1700D30C66 /* PitMissionController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitMissionController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		E452D9A22E258F8300D30C66 /* RobocubsMissionControl */ = {
+		E452D9B32E258FC500D30C66 /* MatchStatusDisplay */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = RobocubsMissionControl;
+			path = MatchStatusDisplay;
+			sourceTree = "<group>";
+		};
+		E452D9C22E259C1700D30C66 /* PitMissionController */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PitMissionController;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E452D99D2E258F8300D30C66 /* Frameworks */ = {
+		E452D9AF2E258FC400D30C66 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E452D9BE2E259C1700D30C66 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -32,7 +45,8 @@
 		E452D9972E258F8300D30C66 = {
 			isa = PBXGroup;
 			children = (
-				E452D9A22E258F8300D30C66 /* RobocubsMissionControl */,
+				E452D9B32E258FC500D30C66 /* MatchStatusDisplay */,
+				E452D9C22E259C1700D30C66 /* PitMissionController */,
 				E452D9A12E258F8300D30C66 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -40,7 +54,8 @@
 		E452D9A12E258F8300D30C66 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E452D9A02E258F8300D30C66 /* RobocubsMissionControl.app */,
+				E452D9B22E258FC400D30C66 /* MatchStatusDisplay.app */,
+				E452D9C12E259C1700D30C66 /* PitMissionController.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,26 +63,48 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E452D99F2E258F8300D30C66 /* RobocubsMissionControl */ = {
+		E452D9B12E258FC400D30C66 /* MatchStatusDisplay */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E452D9AB2E258F8600D30C66 /* Build configuration list for PBXNativeTarget "RobocubsMissionControl" */;
+			buildConfigurationList = E452D9BA2E258FC700D30C66 /* Build configuration list for PBXNativeTarget "MatchStatusDisplay" */;
 			buildPhases = (
-				E452D99C2E258F8300D30C66 /* Sources */,
-				E452D99D2E258F8300D30C66 /* Frameworks */,
-				E452D99E2E258F8300D30C66 /* Resources */,
+				E452D9AE2E258FC400D30C66 /* Sources */,
+				E452D9AF2E258FC400D30C66 /* Frameworks */,
+				E452D9B02E258FC400D30C66 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				E452D9A22E258F8300D30C66 /* RobocubsMissionControl */,
+				E452D9B32E258FC500D30C66 /* MatchStatusDisplay */,
 			);
-			name = RobocubsMissionControl;
+			name = MatchStatusDisplay;
 			packageProductDependencies = (
 			);
-			productName = RobocubsMissionControl;
-			productReference = E452D9A02E258F8300D30C66 /* RobocubsMissionControl.app */;
+			productName = MatchStatusDisplay;
+			productReference = E452D9B22E258FC400D30C66 /* MatchStatusDisplay.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E452D9C02E259C1700D30C66 /* PitMissionController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E452D9C92E259C1900D30C66 /* Build configuration list for PBXNativeTarget "PitMissionController" */;
+			buildPhases = (
+				E452D9BD2E259C1700D30C66 /* Sources */,
+				E452D9BE2E259C1700D30C66 /* Frameworks */,
+				E452D9BF2E259C1700D30C66 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				E452D9C22E259C1700D30C66 /* PitMissionController */,
+			);
+			name = PitMissionController;
+			packageProductDependencies = (
+			);
+			productName = PitMissionController;
+			productReference = E452D9C12E259C1700D30C66 /* PitMissionController.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -80,7 +117,10 @@
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
-					E452D99F2E258F8300D30C66 = {
+					E452D9B12E258FC400D30C66 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					E452D9C02E259C1700D30C66 = {
 						CreatedOnToolsVersion = 26.0;
 					};
 				};
@@ -99,13 +139,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E452D99F2E258F8300D30C66 /* RobocubsMissionControl */,
+				E452D9B12E258FC400D30C66 /* MatchStatusDisplay */,
+				E452D9C02E259C1700D30C66 /* PitMissionController */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		E452D99E2E258F8300D30C66 /* Resources */ = {
+		E452D9B02E258FC400D30C66 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E452D9BF2E259C1700D30C66 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -115,7 +163,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		E452D99C2E258F8300D30C66 /* Sources */ = {
+		E452D9AE2E258FC400D30C66 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E452D9BD2E259C1700D30C66 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -244,26 +299,27 @@
 			};
 			name = Release;
 		};
-		E452D9AC2E258F8600D30C66 /* Debug */ = {
+		E452D9BB2E258FC700D30C66 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2R7TQ3H7AK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DeKlerk.Quincy.RobocubsMissionControl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DeKlerk.Quincy.MatchStatusDisplay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -274,13 +330,45 @@
 			};
 			name = Debug;
 		};
-		E452D9AD2E258F8600D30C66 /* Release */ = {
+		E452D9BC2E258FC700D30C66 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2R7TQ3H7AK;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DeKlerk.Quincy.MatchStatusDisplay;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E452D9CA2E259C1900D30C66 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2R7TQ3H7AK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -288,12 +376,45 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DeKlerk.Quincy.RobocubsMissionControl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DeKlerk.Quincy.PitMissionController;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E452D9CB2E259C1900D30C66 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2R7TQ3H7AK;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DeKlerk.Quincy.PitMissionController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -316,11 +437,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E452D9AB2E258F8600D30C66 /* Build configuration list for PBXNativeTarget "RobocubsMissionControl" */ = {
+		E452D9BA2E258FC700D30C66 /* Build configuration list for PBXNativeTarget "MatchStatusDisplay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E452D9AC2E258F8600D30C66 /* Debug */,
-				E452D9AD2E258F8600D30C66 /* Release */,
+				E452D9BB2E258FC700D30C66 /* Debug */,
+				E452D9BC2E258FC700D30C66 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E452D9C92E259C1900D30C66 /* Build configuration list for PBXNativeTarget "PitMissionController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E452D9CA2E259C1900D30C66 /* Debug */,
+				E452D9CB2E259C1900D30C66 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
