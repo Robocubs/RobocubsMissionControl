@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  RobocubsMissionControl
+//  MatchStatusDisplay
 //
 //  Created by Quincy D on 7/14/25.
 //
