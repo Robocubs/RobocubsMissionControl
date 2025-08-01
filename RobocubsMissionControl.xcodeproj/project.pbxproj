@@ -11,14 +11,45 @@
 		E452D9C12E259C1700D30C66 /* PitMissionController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitMissionController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E4F902ED2E2AA5A600122169 /* Exceptions for "PitMissionController" folder in "MatchStatusDisplay" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				BluetoothCentralManager.swift,
+			);
+			target = E452D9B12E258FC400D30C66 /* MatchStatusDisplay */;
+		};
+		E4F902EF2E2AC97600122169 /* Exceptions for "MatchStatusDisplay" folder in "MatchStatusDisplay" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = E452D9B12E258FC400D30C66 /* MatchStatusDisplay */;
+		};
+		E4F902F12E2AC9B200122169 /* Exceptions for "PitMissionController" folder in "PitMissionController" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = E452D9C02E259C1700D30C66 /* PitMissionController */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E452D9B32E258FC500D30C66 /* MatchStatusDisplay */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E4F902EF2E2AC97600122169 /* Exceptions for "MatchStatusDisplay" folder in "MatchStatusDisplay" target */,
+			);
 			path = MatchStatusDisplay;
 			sourceTree = "<group>";
 		};
 		E452D9C22E259C1700D30C66 /* PitMissionController */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E4F902ED2E2AA5A600122169 /* Exceptions for "PitMissionController" folder in "MatchStatusDisplay" target */,
+				E4F902F12E2AC9B200122169 /* Exceptions for "PitMissionController" folder in "PitMissionController" target */,
+			);
 			path = PitMissionController;
 			sourceTree = "<group>";
 		};
@@ -309,6 +340,9 @@
 				DEVELOPMENT_TEAM = 2R7TQ3H7AK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MatchStatusDisplay/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Used to communicate with Mission Controller";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Used to communicate with Mission Controller";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -340,6 +374,9 @@
 				DEVELOPMENT_TEAM = 2R7TQ3H7AK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MatchStatusDisplay/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Used to communicate with Mission Controller";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Used to communicate with Mission Controller";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -371,6 +408,9 @@
 				DEVELOPMENT_TEAM = 2R7TQ3H7AK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PitMissionController/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Used to communicate with Match Status Display";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Used to communicate with Match Status Display";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -403,6 +443,9 @@
 				DEVELOPMENT_TEAM = 2R7TQ3H7AK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PitMissionController/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Used to communicate with Match Status Display";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Used to communicate with Match Status Display";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
