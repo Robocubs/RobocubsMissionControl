@@ -32,7 +32,6 @@ class CartLEndpoint(WebSocketEndpoint):
     
     async def on_connect(self, websocket):
         print("CartL connect attempt - accepting without origin check")
-        global cartL
         await websocket.accept()
         
         if cartL is not None:
@@ -46,7 +45,6 @@ class CartLEndpoint(WebSocketEndpoint):
     
     async def on_disconnect(self, websocket, close_code):
         print("CartL disconnected")
-        global cartL
         cartL = None
         
     async def on_receive(self, websocket, data):
@@ -57,7 +55,6 @@ class CartREndpoint(WebSocketEndpoint):
     
     async def on_connect(self, websocket):
         print("CartR connect attempt - accepting without origin check")
-        global cartR
         await websocket.accept()
         
         if cartR is not None:
@@ -71,7 +68,6 @@ class CartREndpoint(WebSocketEndpoint):
     
     async def on_disconnect(self, websocket, close_code):
         print("CartR disconnected")
-        global cartR
         cartR = None
         
     async def on_receive(self, websocket, data):
@@ -82,7 +78,6 @@ class MissionController(WebSocketEndpoint):
     
     async def on_connect(self, websocket):
         print("MissionController connect attempt - accepting without origin check")
-        global missionController
         await websocket.accept()
         
         if missionController is not None:
@@ -96,7 +91,6 @@ class MissionController(WebSocketEndpoint):
 
     async def on_disconnect(self, websocket, close_code):
         print("MissionController disconnected")
-        global missionController
         missionController = None
 
     async def on_receive(self, websocket, data):
@@ -109,7 +103,6 @@ app.add_websocket_route("/cartR", CartREndpoint)
 app.add_websocket_route("/missionControl", MissionController)
 
 async def cartLSend(message: dict):
-    global cartL
     if cartL is not None:
         await cartL.send_json(message)
         print(f"Sent to CartL: {message}")
@@ -117,7 +110,6 @@ async def cartLSend(message: dict):
         print("CartL not connected - cannot send message")
 
 async def cartRSend(message: dict):
-    global cartR
     if cartR is not None:
         await cartR.send_json(message)
         print(f"Sent to CartR: {message}")
@@ -125,7 +117,6 @@ async def cartRSend(message: dict):
         print("CartR not connected - cannot send message")
 
 async def missionControlSend(message: dict):
-    global missionController
     if missionController is not None:
         await missionController.send_json(message)
         print(f"Sent to MissionController: {message}")
