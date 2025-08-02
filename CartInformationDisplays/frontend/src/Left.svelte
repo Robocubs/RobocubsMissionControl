@@ -13,9 +13,9 @@ $: if ($ws.message?.type === "state") {
       case "sponsors":
         currentView = "sponsors";
         break;
-      case "currentMatch":
-        currentView = "currentMatch";
-        break;
+      // case "currentMatch":
+      //   currentView = "currentMatch";
+      //   break;
       default:
         currentView = "sponsors";
     }

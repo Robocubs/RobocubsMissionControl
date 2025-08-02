@@ -24,7 +24,7 @@ struct CartController: View {
                 .font(.title2)
                 .foregroundColor(.white)
                 .bold()
-                .frame(width: 200, height: 100)
+                .frame(width: 300, height: 100)
         }
         .background(currentState == .Sponsors ? Color.blue : Color.gray)
         .cornerRadius(50)
@@ -33,13 +33,13 @@ struct CartController: View {
         
         Button(action: {
             currentState = .Stream
-            socket.sendMessage(type: "state", data: "stream")
+            socket.sendMessage(type: "state", data: "currentMatch")
         }) {
-            Text("Stream")
+            Text("Current Match")
                 .font(.title2)
                 .foregroundColor(.white)
                 .bold()
-                .frame(width: 200, height: 100)
+                .frame(width: 300, height: 100)
         }
         .background(currentState == .Stream ? Color.blue : Color.gray)
         .cornerRadius(50)

@@ -42,7 +42,7 @@ $: if ($ws.message?.type == "stream") {
       <Sponsors title="Sponsors Right" url="https://docs.google.com/presentation/d/e/2PACX-1vSToCZ6ksw75RaUtXSaVFaWlWYgFRwob0FOeRamLQrt9g-T5YBKuiYFoHSFrLfyPtXXAe8V3kbjpl86/embed?start=true&loop=true&delayms=7000&rm=minimal" />
   {:else if currentView === "currentMatch"}
       {#if streamType === "YouTube"}
-          <YouTube videoID="dQw4w9WgXcQ" />
+          <YouTube videoID="tTc_SdbR1Fg" />
       {:else if streamType === "Twitch"}
           <Twitch channel="example_channel" />
       {/if}
