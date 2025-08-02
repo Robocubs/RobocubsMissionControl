@@ -1,9 +1,9 @@
 import { mount } from 'svelte'
 import './left.css'
-import Left from './Left.svelte'
+import Right from './Right.svelte'
 
-const left = mount(Left, {
-  target: document.getElementById('left')!,
+const right = mount(Right, {
+  target: document.getElementById('right')!,
 })
 
-export default left
+export default right
