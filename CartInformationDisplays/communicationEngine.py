@@ -11,6 +11,7 @@ import httpx
 import os
 
 from controllerRouter import controllerRouter
+from sharedState import cartL, cartR, missionController
 
 app = FastAPI()
 
@@ -25,10 +26,6 @@ app.add_middleware(
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
 
 app.mount("/prod", StaticFiles(directory=os.path.join(currentDirectory, "frontend", "prod")), name="prod")
-
-cartL = None
-cartR = None
-missionController = None
 
 class CartLEndpoint(WebSocketEndpoint):
     encoding = "json"

@@ -1,5 +1,5 @@
 import asyncio
-from communicationEngine import cartL, cartR, missionController
+from sharedState import cartL, cartR, missionController
 
 def controllerRouter(data):
     try:
