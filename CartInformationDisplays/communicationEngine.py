@@ -11,7 +11,7 @@ import httpx
 import os
 
 from controllerRouter import controllerRouter
-from sharedState import cartL, cartR, missionController
+import sharedState
 
 app = FastAPI()
 
@@ -34,19 +34,19 @@ class CartLEndpoint(WebSocketEndpoint):
         print("CartL connect attempt - accepting without origin check")
         await websocket.accept()
         
-        if cartL is not None:
+        if sharedState.cartL is not None:
             try:
-                await cartL.close()
+                await sharedState.cartL.close()
             except:
                 pass
-        
-        cartL = websocket
+
+        sharedState.cartL = websocket
         print("CartL connected successfully")
     
     async def on_disconnect(self, websocket, close_code):
         print("CartL disconnected")
-        cartL = None
-        
+        sharedState.cartL = None
+
     async def on_receive(self, websocket, data):
         print(f"CartL received: {data}")
 
@@ -56,19 +56,19 @@ class CartREndpoint(WebSocketEndpoint):
     async def on_connect(self, websocket):
         print("CartR connect attempt - accepting without origin check")
         await websocket.accept()
-        
-        if cartR is not None:
+
+        if sharedState.cartR is not None:
             try:
-                await cartR.close()
+                await sharedState.cartR.close()
             except:
                 pass
-        
-        cartR = websocket
+
+        sharedState.cartR = websocket
         print("CartR connected successfully")
     
     async def on_disconnect(self, websocket, close_code):
         print("CartR disconnected")
-        cartR = None
+        sharedState.cartR = None
         
     async def on_receive(self, websocket, data):
         print(f"CartR received: {data}")
@@ -79,19 +79,19 @@ class MissionController(WebSocketEndpoint):
     async def on_connect(self, websocket):
         print("MissionController connect attempt - accepting without origin check")
         await websocket.accept()
-        
-        if missionController is not None:
+
+        if sharedState.missionController is not None:
             try:
-                await missionController.close()
+                await sharedState.missionController.close()
             except:
                 pass
 
-        missionController = websocket
+        sharedState.missionController = websocket
         print("MissionController connected successfully")
 
     async def on_disconnect(self, websocket, close_code):
         print("MissionController disconnected")
-        missionController = None
+        sharedState.missionController = None
 
     async def on_receive(self, websocket, data):
         controllerRouter(data)
@@ -103,22 +103,22 @@ app.add_websocket_route("/cartR", CartREndpoint)
 app.add_websocket_route("/missionControl", MissionController)
 
 async def cartLSend(message: dict):
-    if cartL is not None:
-        await cartL.send_json(message)
+    if sharedState.cartL is not None:
+        await sharedState.cartL.send_json(message)
         print(f"Sent to CartL: {message}")
     else:
         print("CartL not connected - cannot send message")
 
 async def cartRSend(message: dict):
-    if cartR is not None:
-        await cartR.send_json(message)
+    if sharedState.cartR is not None:
+        await sharedState.cartR.send_json(message)
         print(f"Sent to CartR: {message}")
     else:
         print("CartR not connected - cannot send message")
 
 async def missionControlSend(message: dict):
-    if missionController is not None:
-        await missionController.send_json(message)
+    if sharedState.missionController is not None:
+        await sharedState.missionController.send_json(message)
         print(f"Sent to MissionController: {message}")
     else:
         print("MissionController not connected - cannot send message")
