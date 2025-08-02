@@ -1,5 +1,5 @@
 import { mount } from 'svelte'
-import './left.css'
+import './right.css'
 import Right from './Right.svelte'
 
 const right = mount(Right, {

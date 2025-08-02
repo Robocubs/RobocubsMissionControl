@@ -5,7 +5,7 @@
 
   import createWebsocketTunnel from "./websocketTunnel";
 
-  const ws = createWebsocketTunnel("ws://localhost:8010/cartL");
+  const ws = createWebsocketTunnel("ws://localhost:8010/cartR");
 
   let currentView = "Sponsors";
   let streamType = "YouTube";
