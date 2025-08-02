@@ -24,7 +24,7 @@ $: if ($ws.message?.type === "state") {
 
 <main>
   {#if currentView === "Sponsors"}
-      <Sponsors title="Sponsors Left" url="https://docs.google.com/presentation/d/e/2PACX-1vRkkyssQQCfxNXfz6p63vJQFkNowBuO5IQGxcVh7oHx7nSDiTy5q7LhW3oDdxhHp548xx8ZUKeW0umM/embed?start=true&loop=true&delayms=3000&rm=minimal" />
+      <Sponsors title="Sponsors Left" url="https://docs.google.com/presentation/d/e/2PACX-1vRkkyssQQCfxNXfz6p63vJQFkNowBuO5IQGxcVh7oHx7nSDiTy5q7LhW3oDdxhHp548xx8ZUKeW0umM/embed?start=true&loop=true&delayms=7000&rm=minimal" />
   {:else if currentView === "CurrentMatch"}
       <CurrentMatch />
   {/if}

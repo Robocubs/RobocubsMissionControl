@@ -39,7 +39,7 @@ $: if ($ws.message?.type == "stream") {
 
 <main>
   {#if currentView === "Sponsors"}
-      <Sponsors title="Sponsors Right" url="https://docs.google.com/presentation/d/e/2PACX-1vSToCZ6ksw75RaUtXSaVFaWlWYgFRwob0FOeRamLQrt9g-T5YBKuiYFoHSFrLfyPtXXAe8V3kbjpl86/embed?start=true&loop=true&delayms=3000&rm=minimal" />
+      <Sponsors title="Sponsors Right" url="https://docs.google.com/presentation/d/e/2PACX-1vSToCZ6ksw75RaUtXSaVFaWlWYgFRwob0FOeRamLQrt9g-T5YBKuiYFoHSFrLfyPtXXAe8V3kbjpl86/embed?start=true&loop=true&delayms=7000&rm=minimal" />
   {:else if currentView === "CurrentMatch"}
       {#if streamType === "YouTube"}
           <YouTube videoID="dQw4w9WgXcQ" />
