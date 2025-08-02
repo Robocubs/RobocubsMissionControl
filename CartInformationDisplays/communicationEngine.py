@@ -94,7 +94,7 @@ class MissionController(WebSocketEndpoint):
         sharedState.missionController = None
 
     async def on_receive(self, websocket, data):
-        controllerRouter(data)
+        await controllerRouter(data)
         print(f"MissionController received: {data}")
 
 # Replace the @app.websocket decorators with these:
