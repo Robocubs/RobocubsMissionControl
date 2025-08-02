@@ -1,15 +1,16 @@
-import asyncio
+# controllerRouter.py
 import sharedState
 
-def controllerRouter(data):
+async def controllerRouter(data):
     try:
         if data["type"] == "state":
             if sharedState.cartL is not None:
-                asyncio.run(sharedState.cartL.send_json(data))
+                await sharedState.cartL.send_json(data)
             if sharedState.cartR is not None:
-                asyncio.run(sharedState.cartR.send_json(data))
-
-            asyncio.run(sharedState.missionController.send_json({"type": "confirm", "data": "true"}))
+                await sharedState.cartR.send_json(data)
+            if sharedState.missionController is not None:
+                await sharedState.missionController.send_json({"type": "confirm", "data": "true"})
     except:
-        asyncio.run(sharedState.missionController.send_json({"type": "confirm", "data": "false"}))
+        if sharedState.missionController is not None:
+            await sharedState.missionController.send_json({"type": "confirm", "data": "false"})
 
