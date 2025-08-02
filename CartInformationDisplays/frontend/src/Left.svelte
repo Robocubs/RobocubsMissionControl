@@ -6,26 +6,26 @@
 
   const ws = createWebsocketTunnel("ws://localhost:8010/cartL");
 
-  let currentView = "Sponsors";
+  let currentView = "sponsors";
 
 $: if ($ws.message?.type === "state") {
     switch ($ws.message?.data) {
-      case "Sponsors":
-        currentView = "Sponsors";
+      case "sponsors":
+        currentView = "sponsors";
         break;
-      case "CurrentMatch":
-        currentView = "CurrentMatch";
+      case "currentMatch":
+        currentView = "currentMatch";
         break;
       default:
-        currentView = "Sponsors";
+        currentView = "sponsors";
     }
   }
 </script>
 
 <main>
-  {#if currentView === "Sponsors"}
+  {#if currentView === "sponsors"}
       <Sponsors title="Sponsors Left" url="https://docs.google.com/presentation/d/e/2PACX-1vRkkyssQQCfxNXfz6p63vJQFkNowBuO5IQGxcVh7oHx7nSDiTy5q7LhW3oDdxhHp548xx8ZUKeW0umM/embed?start=true&loop=true&delayms=7000&rm=minimal" />
-  {:else if currentView === "CurrentMatch"}
+  {:else if currentView === "currentMatch"}
       <CurrentMatch />
   {/if}
 </main>

@@ -29,7 +29,6 @@ class CommunicationBus:
             print("MissionController not connected")
     
     async def recieveMissionController(self, data: Dict[str, Any]):
-        """Handle commands from mission controller"""
         try:
             if data.get("type") == "state":
                 # Send to both carts

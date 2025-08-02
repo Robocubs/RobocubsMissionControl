@@ -7,19 +7,19 @@
 
   const ws = createWebsocketTunnel("ws://localhost:8010/cartR");
 
-  let currentView = "Sponsors";
+  let currentView = "sponsors";
   let streamType = "YouTube";
 
 $: if ($ws.message?.type === "state") {
     switch ($ws.message?.data) {
-      case "Sponsors":
-        currentView = "Sponsors";
+      case "sponsors":
+        currentView = "sponsors";
         break;
-      case "CurrentMatch":
-        currentView = "CurrentMatch";
+      case "currentMatch":
+        currentView = "currentMatch";
         break;
       default:
-        currentView = "Sponsors";
+        currentView = "sponsors";
     }
   }
 
@@ -38,9 +38,9 @@ $: if ($ws.message?.type == "stream") {
 </script>
 
 <main>
-  {#if currentView === "Sponsors"}
+  {#if currentView === "sponsors"}
       <Sponsors title="Sponsors Right" url="https://docs.google.com/presentation/d/e/2PACX-1vSToCZ6ksw75RaUtXSaVFaWlWYgFRwob0FOeRamLQrt9g-T5YBKuiYFoHSFrLfyPtXXAe8V3kbjpl86/embed?start=true&loop=true&delayms=7000&rm=minimal" />
-  {:else if currentView === "CurrentMatch"}
+  {:else if currentView === "currentMatch"}
       {#if streamType === "YouTube"}
           <YouTube videoID="dQw4w9WgXcQ" />
       {:else if streamType === "Twitch"}
