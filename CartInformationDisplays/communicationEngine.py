@@ -10,6 +10,8 @@ from starlette.responses import Response as StarletteResponse
 import httpx
 import os
 
+from controllerRouter import controllerRouter
+
 app = FastAPI()
 
 app.add_middleware(
@@ -26,6 +28,7 @@ app.mount("/prod", StaticFiles(directory=os.path.join(currentDirectory, "fronten
 
 cartL = None
 cartR = None
+missionController = None
 
 class CartLEndpoint(WebSocketEndpoint):
     encoding = "json"
@@ -77,9 +80,36 @@ class CartREndpoint(WebSocketEndpoint):
     async def on_receive(self, websocket, data):
         print(f"CartR received: {data}")
 
+class MissionController(WebSocketEndpoint):
+    encoding = "json"
+    
+    async def on_connect(self, websocket):
+        print("MissionController connect attempt - accepting without origin check")
+        global missionController
+        await websocket.accept()
+        
+        if missionController is not None:
+            try:
+                await missionController.close()
+            except:
+                pass
+
+        missionController = websocket
+        print("MissionController connected successfully")
+
+    async def on_disconnect(self, websocket, close_code):
+        print("MissionController disconnected")
+        global missionController
+        missionController = None
+
+    async def on_receive(self, websocket, data):
+        controllerRouter(data)
+        print(f"MissionController received: {data}")
+
 # Replace the @app.websocket decorators with these:
 app.add_websocket_route("/cartL", CartLEndpoint)
 app.add_websocket_route("/cartR", CartREndpoint)
+app.add_websocket_route("/missionControl", MissionController)
 
 async def cartLSend(message: dict):
     global cartL
@@ -96,3 +126,11 @@ async def cartRSend(message: dict):
         print(f"Sent to CartR: {message}")
     else:
         print("CartR not connected - cannot send message")
+
+async def missionControlSend(message: dict):
+    global missionController
+    if missionController is not None:
+        await missionController.send_json(message)
+        print(f"Sent to MissionController: {message}")
+    else:
+        print("MissionController not connected - cannot send message")
