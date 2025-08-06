@@ -5,7 +5,8 @@ import os
 
 load_dotenv(override=True)
 
-apikey= os.getenv("TBA_API_KEY")
+apikey = os.getenv("TBA_API_KEY")
+previous_etag = ""
 
 def getMatches():
     matches = []
@@ -13,10 +14,14 @@ def getMatches():
 
     headers = {
         "X-TBA-Auth-Key": apikey,
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "If-None-Match": previous_etag
     }
 
     response = requests.get("https://www.thebluealliance.com/api/v3/team/frc1701/event/2025mifer/matches", headers=headers)
+    if response.status_code != 200:
+        return []
+    previous_etag = response.headers.get("Etag")
     data = response.json()
     
     for match in data:
