@@ -1,43 +1,7 @@
-<script lang="ts">
-  import Sponsors from "./views/Sponsors.svelte";
-  import CurrentMatch from "./views/CurrentMatch.svelte";
+<script>
+    import LogicView from "./views/LogicView.svelte";
 
-  import createWebsocketTunnel from "./websocketTunnel";
-
-  const ws = createWebsocketTunnel("ws://localhost:8010/cartL");
-
-  let currentView = "sponsors";
-
-$: if ($ws.message?.type === "state") {
-    switch ($ws.message?.data) {
-      case "sponsors":
-        currentView = "sponsors";
-        break;
-      // case "currentMatch":
-      //   currentView = "currentMatch";
-      //   break;
-      default:
-        currentView = "sponsors";
-    }
-  }
 </script>
-
 <main>
-  {#if currentView === "sponsors"}
-      <Sponsors title="Sponsors Left" url="https://docs.google.com/presentation/d/e/2PACX-1vRkkyssQQCfxNXfz6p63vJQFkNowBuO5IQGxcVh7oHx7nSDiTy5q7LhW3oDdxhHp548xx8ZUKeW0umM/embed?start=true&loop=true&delayms=7000&rm=minimal" />
-  {:else if currentView === "currentMatch"}
-      <CurrentMatch />
-  {/if}
+  <LogicView wsEndpoint="cartL" presentationId="2PACX-1vRkkyssQQCfxNXfz6p63vJQFkNowBuO5IQGxcVh7oHx7nSDiTy5q7LhW3oDdxhHp548xx8ZUKeW0umM"/>
 </main>
-
-<style>
-  main {
-    height: 100vh;
-    width: 100vw;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-  }
-</style>

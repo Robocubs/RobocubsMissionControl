@@ -5,6 +5,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 export default defineConfig({
   base: '/prod/',
   plugins: [svelte()],
+  publicDir: '../assets',
   build: {
     outDir: '../frontend/prod',
     rollupOptions: {
