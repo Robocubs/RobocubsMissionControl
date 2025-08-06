@@ -9,6 +9,8 @@ apikey = os.getenv("TBA_API_KEY")
 previous_etag = ""
 
 def getMatches():
+    global previous_etag
+
     matches = []
     myTeam = ""
 
