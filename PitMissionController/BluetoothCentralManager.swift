@@ -10,6 +10,7 @@ import CoreBluetooth
 import Combine
 
 class BluetoothCentralManager: NSObject, ObservableObject {
+    static let shared = BluetoothCentralManager()
     private var centralManager: CBCentralManager!
     private var discoveredPeripheral: CBPeripheral?
     private var writableCharacteristic: CBCharacteristic?
@@ -121,17 +122,42 @@ extension BluetoothCentralManager: CBPeripheralDelegate {
         }
     }
     
-    func sendNumber(_ number: Int) {
+    
+    func prepareData<T: Codable>(type: String, data: T) -> Data? {
+        let payload = mainPayload(type: type, data: data)
+
+        guard let encodedPayload = try? JSONEncoder().encode(payload) else {
+            print("Failed to encode payload")
+            return nil
+        }
+
+        return encodedPayload
+    }
+
+    
+    func sendData(_ data: Data) {
         guard let peripheral = discoveredPeripheral,
               let characteristic = writableCharacteristic else {
             print("Peripheral or characteristic not ready")
             return
         }
+        
+        // Prefix the data with 4-byte length of package
+        var length = UInt32(data.count).bigEndian
+        let lengthData = Data(bytes: &length, count: 4)
+        let fullData = lengthData + data
 
-        guard let data = "\(number)".data(using: .utf8) else { return }
-
-        peripheral.writeValue(data, for: characteristic, type: .withResponse)
-        print("Central sent: \(number)")
+        let mtu = 20 // Max BLE payload size
+        var offset = 0
+        
+        // Send data in packets
+        while offset < fullData.count {
+            let chunkSize = min(mtu, fullData.count - offset)
+            let chunk = fullData.subdata(in: offset..<(offset + chunkSize))
+            peripheral.writeValue(chunk, for: characteristic, type: .withResponse)
+            print("Central sent chunk: \(chunk as NSData)")
+            offset += chunkSize
+        }
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {

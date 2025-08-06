@@ -10,13 +10,14 @@ import CoreBluetooth
 import Combine
 
 class BluetoothPeripheralManager: NSObject, ObservableObject {
+    static let shared = BluetoothPeripheralManager()
     private var peripheralManager: CBPeripheralManager!
     private var transferCharacteristic: CBMutableCharacteristic!
     
     private let serviceUUID = CBUUID(string: "A12BBDA7-05D4-431B-B3B9-10846BA909FB")
     private let characteristicUUID = CBUUID(string: "3B06B2B0-DDAC-4A7F-AD9B-85C46CC32FCA")
     
-    @Published var recievedNum: String = ""
+    private var incomingBuffer = Data()
     
     override init() {
         super.init()
@@ -78,14 +79,31 @@ extension BluetoothPeripheralManager: CBPeripheralManagerDelegate {
             print("Service Added: \(service.uuid)")
         }
     }
-    
+
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
+        // Reassemble message package
         for request in requests {
-            if let data = request.value, let message = String(data: data, encoding: .utf8) {
-                recievedNum = message
-                print("Received write request with value: \(message)")
+            if let data = request.value {
+                incomingBuffer.append(data)
             }
             peripheralManager.respond(to: request, withResult: .success)
+        }
+        
+        // Process all complete messages in the buffer
+        while incomingBuffer.count >= 4 {
+            let lengthData = incomingBuffer.prefix(4)
+            let length = lengthData.withUnsafeBytes { $0.load(as: UInt32.self).bigEndian }
+            if incomingBuffer.count >= 4 + Int(length) {
+                let messageData = incomingBuffer.subdata(in: 4..<(4 + Int(length)))
+                
+                print("Received mainPayload: \(messageData)")
+                
+                routeRequest(messageData)
+                
+                incomingBuffer.removeSubrange(0..<(4 + Int(length)))
+            } else {
+                break // Not enough data yet
+            }
         }
     }
     

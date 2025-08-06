@@ -12,6 +12,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E4D6321B2E41B42600176DDB /* Exceptions for "Shared" folder in "PitMissionController" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MessageStructures.swift,
+			);
+			target = E452D9C02E259C1700D30C66 /* PitMissionController */;
+		};
 		E4F902ED2E2AA5A600122169 /* Exceptions for "PitMissionController" folder in "MatchStatusDisplay" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -53,6 +60,14 @@
 			path = PitMissionController;
 			sourceTree = "<group>";
 		};
+		E4D632192E41B41500176DDB /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E4D6321B2E41B42600176DDB /* Exceptions for "Shared" folder in "PitMissionController" target */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +94,7 @@
 				E452D9B32E258FC500D30C66 /* MatchStatusDisplay */,
 				E452D9C22E259C1700D30C66 /* PitMissionController */,
 				E452D9A12E258F8300D30C66 /* Products */,
+				E4D632192E41B41500176DDB /* Shared */,
 			);
 			sourceTree = "<group>";
 		};
@@ -108,6 +124,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				E452D9B32E258FC500D30C66 /* MatchStatusDisplay */,
+				E4D632192E41B41500176DDB /* Shared */,
 			);
 			name = MatchStatusDisplay;
 			packageProductDependencies = (

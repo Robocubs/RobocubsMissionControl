@@ -1,10 +1,5 @@
 import Foundation
 
-public struct MessagePayload: Codable {
-    let type: String
-    let data: String
-}
-
 public class WebSocketManager {
     private var webSocketTask: URLSessionWebSocketTask?
     private let url: URL
@@ -72,26 +67,14 @@ public class WebSocketManager {
         }
     }
     
-    private func incomingMessageRouter(message: String) {
+    private func incomingMessageHandler(message: String) {
         if let jsonData = message.data(using: .utf8) {
-            do {
-                let payload = try JSONDecoder().decode(MessagePayload.self, from: jsonData)
-                
-                switch payload.type {
-                case "confirm":
-                    print("Received text message: \(payload.data)")
-                default:
-                    print("Unsupported message type: \(payload.type)")
-                }
-                
-            } catch {
-                print("Failed to decode JSON: \(error)")
-            }
+            routeRequest(jsonData)
         }
     }
     
-    public func sendMessage(type: String, data: String) {
-        let payload = MessagePayload(type: type, data: data)
+    public func sendMessage(type: String, data: Data) {
+        let payload = mainPayload(type: type, data: data)
         do {
             let jsonData = try JSONEncoder().encode(payload)
             if let jsonString = String(data: jsonData, encoding: .utf8) {

@@ -14,8 +14,8 @@
             filePath = "PitMissionController/WebsocketEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "10"
-            endingLineNumber = "10"
+            startingLineNumber = "5"
+            endingLineNumber = "5"
             landmarkName = "WebSocketManager"
             landmarkType = "3">
          </BreakpointContent>
