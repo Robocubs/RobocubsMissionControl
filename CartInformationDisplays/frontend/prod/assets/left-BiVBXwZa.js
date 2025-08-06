@@ -1,0 +1,1 @@
+import{f as o,L as e,a as m,c as i,m as r}from"./LogicView-BJFHkTiA.js";var s=o("<main><!></main>");function d(t){var a=s(),n=i(a);e(n,{wsEndpoint:"cartL",presentationId:"2PACX-1vRkkyssQQCfxNXfz6p63vJQFkNowBuO5IQGxcVh7oHx7nSDiTy5q7LhW3oDdxhHp548xx8ZUKeW0umM"}),m(t,a)}r(d,{target:document.getElementById("left")});

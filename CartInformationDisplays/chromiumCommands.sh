@@ -5,7 +5,7 @@ sleep 5
 export DISPLAY=:0
 export XAUTHORITY=/home/pi/.Xauthority
 
-chromium-browser --window-position=3840,0 --kiosk --user-data-dir="/tmp/chrome1" "https://www.apple.com" &
-chromium-browser --window-position=0,0 --kiosk --user-data-dir="/tmp/chrome2" "https://www.apple.com" &
+chromium-browser --window-position=3840,0 --kiosk --user-data-dir="/tmp/chrome1" "http://localhost:1701/prod/right.html" &
+chromium-browser --window-position=0,0 --kiosk --user-data-dir="/tmp/chrome2" "http://localhost:1701/prod/left.html" &
 
 wait
