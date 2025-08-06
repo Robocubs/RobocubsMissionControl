@@ -1,0 +1,15 @@
+[Unit]
+Description=Launch Chromium Windows
+After=graphical.target
+Requires=graphical.target
+
+[Service]
+Type=simple
+User=missioncontrol
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/missioncontrol/.Xauthority
+ExecStart=/home/missioncontrol/RobocubsMissionControl/CartInformationDisplays/chromiumCommands.sh
+Restart=on-failure
+
+[Install]
+WantedBy=graphical.target
