@@ -20,7 +20,7 @@ def getMatches(fresh=False):
         "If-None-Match": "" if not fresh else previous_etag
     }
 
-    response = requests.get("https://www.thebluealliance.com/api/v3/team/frc1701/event/2025mifer/matches", headers=headers)
+    response = requests.get("https://www.thebluealliance.com/api/v3/team/frc1701/event/2025mifli/matches", headers=headers)
     if response.status_code != 200:
         return []
     previous_etag = response.headers.get("Etag")
