@@ -25,6 +25,7 @@ struct CartController: View {
     
     init() {
         _ = BluetoothCentralManager.shared
+        _ = socket
     }
 
     
