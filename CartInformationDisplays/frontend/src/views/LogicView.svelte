@@ -9,9 +9,9 @@
   export let wsEndpoint: string;
   export let presentationId: string;
 
-  const ws = createWebsocketTunnel("ws://localhost:8010/" + wsEndpoint);
-
   const position = (wsEndpoint == "cartL") ? "L" : "R";
+
+  const ws = createWebsocketTunnel("ws://localhost:1701/" + wsEndpoint);
 
   const views = {
     sponsors: "sponsors",
