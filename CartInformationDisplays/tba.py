@@ -31,12 +31,14 @@ def getMatches(fresh=False):
         blue = []
         red = []
         for team in match['alliances']['blue']['team_keys']:
-            if team == "frc1701":
+            team = team.strip("frc")
+            if team == "1701":
                 myTeam = "blue"
             blue.append(team)
 
         for team in match['alliances']['red']['team_keys']:
-            if team == "frc1701":
+            team = team.strip("frc")
+            if team == "1701":
                 myTeam = "red"
             red.append(team)
 
