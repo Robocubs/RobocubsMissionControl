@@ -51,7 +51,7 @@ def getMatches(fresh=False):
         if match['comp_level'] == 'sf':
             singleMatch['matchId'] = match['comp_level'].upper() + str(match['set_number'])
         else:
-            singleMatch['matchId'] = match['comp_level'].upper() + str(match['match_number'])
+            singleMatch['matchId'] = match['comp_level'].upper().strip("M") + str(match['match_number'])
 
         if match['winning_alliance'] == 'blue' and myTeam == 'blue':
             singleMatch['win'] = "true"
