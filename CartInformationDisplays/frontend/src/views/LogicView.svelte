@@ -15,7 +15,7 @@
 
   const views = {
     sponsors: "sponsors",
-    youtube: "youTube",
+    youtube: "youtube",
     twitch: "twitch",
     screensaver: "screensaver"
   }
