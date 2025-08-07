@@ -90,4 +90,4 @@ public class WebSocketManager {
     }
 }
 
-public var socket = WebSocketManager(urlString: "ws://192.168.105.10:8010/missionController")
+public var socket = WebSocketManager(urlString: "ws://192.168.105.10:1701/missionController")
