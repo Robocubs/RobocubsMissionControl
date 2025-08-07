@@ -1,7 +1,7 @@
 # websocket_handlers.py
 import asyncio
 from starlette.endpoints import WebSocketEndpoint
-from CartInformationDisplays.tba import getMatches
+from tba import getMatches
 from communicationBus import communicationBus
 
 class CartLEndpoint(WebSocketEndpoint):
