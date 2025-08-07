@@ -1,5 +1,7 @@
 # websocket_handlers.py
+import asyncio
 from starlette.endpoints import WebSocketEndpoint
+from CartInformationDisplays.tba import getMatches
 from communicationBus import communicationBus
 
 class CartLEndpoint(WebSocketEndpoint):
@@ -54,6 +56,9 @@ class MissionControllerEndpoint(WebSocketEndpoint):
                 pass
         communicationBus.missionController = websocket
         print("MissionController connected")
+        matches = getMatches(fresh=True)
+        if matches != []:
+            asyncio.run(communicationBus.sendMissionController({"type": "matches", "data": matches}))
     
     async def on_disconnect(self, websocket, close_code):
         communicationBus.missionController = None
