@@ -28,7 +28,7 @@
   let currentView = views.screensaver;
   let streamType = player.youtube;
 
-$: if ($ws.message?.type === "state" || ($ws.message?.type == "state" + position)) {
+$: if ($ws.message?.type === "state" || ($ws.message?.type === "state" + position)) {
     const key = $ws.message?.data as keyof typeof views;
     currentView = views[key] ?? views.sponsors;
 }
