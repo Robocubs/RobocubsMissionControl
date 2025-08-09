@@ -15,5 +15,5 @@
         }
     </style>
 
-<img src={`/prod/pitCart-${position}.svg`} alt="Screensaver" class="fullscreen-img" />
+<img src={`/prod/pitCart-${position}.png`} alt="Screensaver" class="fullscreen-img" />
 </div>
