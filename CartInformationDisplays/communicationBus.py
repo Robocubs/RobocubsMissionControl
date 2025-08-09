@@ -30,7 +30,7 @@ class CommunicationBus:
     
     async def recieveMissionController(self, data: Dict[str, Any]):
         try:
-            if data.get("type") == "state":
+            if data.get("type") == "state" or data.get("type") == "stateL" or data.get("type") == "stateR":
                 # Send to both carts
                 await self.sendL(data)
                 await self.sendR(data)
