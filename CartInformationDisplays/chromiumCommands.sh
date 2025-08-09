@@ -1,5 +1,4 @@
 #!/bin/bash
-sleep 5
 
 # Set display and auth environment
 export DISPLAY=:0
