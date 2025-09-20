@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ControlButton<State: DisplayState>: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
     enum Target: CustomStringConvertible {
         case left
         case right
@@ -69,6 +72,8 @@ struct ControlButton<State: DisplayState>: View {
         }
         .background(selfId == action ? Color.blue : Color.gray)
         .cornerRadius(50)
+        .glassEffect(.regular.tint(colorScheme == .dark ? Color.black : Color.black.opacity(0.2)))
+        .glassEffect(.regular.tint(selfId == action ? Color.blue : Color.white).interactive())
     }
 }
 
