@@ -19,6 +19,10 @@ public class WebSocketManager {
         webSocketTask = session.webSocketTask(with: url)
         webSocketTask?.resume()
         isConnected = true
+        DispatchQueue.main.async {
+            sharedStates.stateL = .Screensaver
+            sharedStates.stateR = .Screensaver
+        }
         listen()
     }
 
@@ -48,6 +52,7 @@ public class WebSocketManager {
                 switch message {
                 case .string(let text):
                     print("Received string: \(text)")
+                    routeRequest(text)
                 default:
                     print("Received non-string message")
                 }
@@ -67,17 +72,12 @@ public class WebSocketManager {
         }
     }
     
-    private func incomingMessageHandler(message: String) {
-        if let jsonData = message.data(using: .utf8) {
-            routeRequest(jsonData)
-        }
-    }
-    
-    public func sendMessage(type: String, data: Data) {
+    public func sendMessage(type: String, data: String) {
         let payload = mainPayload(type: type, data: data)
         do {
             let jsonData = try JSONEncoder().encode(payload)
             if let jsonString = String(data: jsonData, encoding: .utf8) {
+                print(jsonString)
                 if isConnected {
                     send(message: jsonString)
                 }

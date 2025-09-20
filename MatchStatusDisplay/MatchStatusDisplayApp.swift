@@ -11,7 +11,7 @@ import SwiftUI
 struct MatchStatusDisplayApp: App {
     var body: some Scene {
         WindowGroup {
-            MatchBoard()
+            ViewController()
         }
     }
 }

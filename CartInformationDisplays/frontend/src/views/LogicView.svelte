@@ -45,7 +45,7 @@ $: if ($ws.message?.type == "stream") {
     {:else if currentView === "youtube"}
         <YouTube videoID="RZV4oXuTZlA" />
     {:else if currentView === "twitch"}
-        <Twitch channel="lofigirl" />
+        <Twitch channel="funroboticsnetwork" />
     {:else if currentView === "screensaver"}
       <Screensaver position={position} />
   {/if}

@@ -7,9 +7,10 @@
 
 import Foundation
 
-public func routeRequest(_ data: Data) {
+public func routeRequest(_ data: String) {
     do {
-        guard let jsonData = try? JSONSerialization.jsonObject(with: data, options: []),
+        print("Inital Route Request: \(data)")
+        guard let jsonData = try? JSONSerialization.jsonObject(with: Data(data.utf8), options: []),
               let dict = jsonData as? [String: Any],
               let type = dict["type"] as? String else {
             print("Failed to read type")
@@ -18,9 +19,12 @@ public func routeRequest(_ data: Data) {
         
         switch type {
         case "matchPackage":
-            BluetoothCentralManager.shared.sendData(data)
+            print("Switch Okay: \(data)")
+            let result = try JSONDecoder().decode(mainPayload<[matchPackage]>.self, from: Data(data.utf8))
+            MatchStore.shared.matches = result.data
+            BluetoothCentralManager.shared.sendData(Data(data.utf8))
         case "confirm":
-            let message = try JSONDecoder().decode(mainPayload<String>.self, from: data)
+            let message = try JSONDecoder().decode(mainPayload<String>.self, from: Data(data.utf8))
             print("Received text message: \(message.data)")
         default:
             print("Unknown type: \(type)")

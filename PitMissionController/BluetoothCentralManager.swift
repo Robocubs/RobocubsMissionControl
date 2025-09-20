@@ -64,6 +64,9 @@ extension BluetoothCentralManager: CBCentralManagerDelegate {
         discoveredPeripheral = peripheral
         discoveredPeripheral?.delegate = self
         centralManager.connect(peripheral, options: nil)
+        DispatchQueue.main.async {
+            sharedStates.sign = .Screensaver
+        }
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {

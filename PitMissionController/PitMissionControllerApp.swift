@@ -11,7 +11,7 @@ import SwiftUI
 struct PitMissionControllerApp: App {
     var body: some Scene {
         WindowGroup {
-           CartController()
+           ViewController()
         }
     }
 }

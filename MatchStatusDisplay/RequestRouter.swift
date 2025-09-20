@@ -21,6 +21,10 @@ public func routeRequest(_ messageData: Data) {
             let result = try JSONDecoder().decode(mainPayload<[matchPackage]>.self, from: messageData)
             print("Decoded [MatchPackage]: \(result.data)")
             MatchStore.shared.matches = result.data
+        case "stateSign":
+            let result = try JSONDecoder().decode(mainPayload<SignStates>.self, from: messageData)
+            print("Decoded [MatchPackage]: \(result.data)")
+            sharedStates.sign = result.data
             
         default:
             print("Unknown type: \(type)")

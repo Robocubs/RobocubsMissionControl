@@ -15,7 +15,12 @@
 		E4D6321B2E41B42600176DDB /* Exceptions for "Shared" folder in "PitMissionController" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Matches.swift,
 				MessageStructures.swift,
+				SharedAssets.xcassets,
+				StateStructures.swift,
+				Views/MatchBoard.swift,
+				Views/Screensaver.swift,
 			);
 			target = E452D9C02E259C1700D30C66 /* PitMissionController */;
 		};

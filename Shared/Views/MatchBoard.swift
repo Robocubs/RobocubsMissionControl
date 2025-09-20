@@ -10,10 +10,6 @@ import SwiftUI
 struct MatchBoard: View {
     @ObservedObject var matchPackage = MatchStore.shared
     
-    init() {
-        _ = BluetoothPeripheralManager.shared
-    }
-    
     private let fontSizeBase: CGFloat = 30
     @Environment(\.colorScheme) var colorScheme
     
@@ -42,28 +38,32 @@ struct MatchBoard: View {
                                         .fill(
                                             (matchPackage.win == nil)
                                             ? Color.yellow.opacity(0.7)
-                                            : ((matchPackage.win ?? false) ? Color.green : Color.red)
+                                            : ((Bool(matchPackage.win ?? "") ?? false) ? Color.green : Color.red)
                                         )
                                         .padding(.leading, 5)
                                 }
                                 HStack {
                                     Spacer()
-                                    if (matchPackage.win != nil) {
-                                        Text("+\(matchPackage.rp ?? 0)")
-                                            .font(.system(size: fontSizeBase + 5, weight: .bold, design: .default))
-                                            .foregroundStyle(Color.black.opacity(0.6))
-                                            .multilineTextAlignment(.trailing)
-                                            .padding(.horizontal, 35)
+                                    if matchPackage.win != nil && matchPackage.matchId.contains("SF") {
+                                        EmptyView()
                                     } else {
-                                        let formatted = MatchBoard.matchDateFormatter.string(from: Date(timeIntervalSince1970: matchPackage.time))
-                                        let comps = formatted.split(separator: " ")
-                                        let timeText = comps.first ?? ""
-                                        let ampmLetter = comps.count > 1 ? comps[1].lowercased().prefix(1) : ""
-                                        Text("\(timeText)\(ampmLetter)")
-                                            .font(.system(size: fontSizeBase - 10, weight: .medium, design: .default))
-                                            .foregroundStyle(Color.black.opacity(0.9))
-                                            .multilineTextAlignment(.trailing)
-                                            .padding(.horizontal, 25)
+                                        if (matchPackage.win != nil) {
+                                            Text("+\(matchPackage.rp ?? 0)")
+                                                .font(.system(size: fontSizeBase + 5, weight: .bold, design: .default))
+                                                .foregroundStyle(Color.black.opacity(0.6))
+                                                .multilineTextAlignment(.trailing)
+                                                .padding(.horizontal, 35)
+                                        } else {
+                                            let formatted = MatchBoard.matchDateFormatter.string(from: Date(timeIntervalSince1970: matchPackage.time))
+                                            let comps = formatted.split(separator: " ")
+                                            let timeText = comps.first ?? ""
+                                            let ampmLetter = comps.count > 1 ? comps[1].lowercased().prefix(1) : ""
+                                            Text("\(timeText)\(ampmLetter)")
+                                                .font(.system(size: fontSizeBase - 10, weight: .medium, design: .default))
+                                                .foregroundStyle(Color.black.opacity(0.9))
+                                                .multilineTextAlignment(.trailing)
+                                                .padding(.horizontal, 25)
+                                        }
                                     }
                                 }
                             }
@@ -86,25 +86,30 @@ struct MatchBoard: View {
                                 
                                 HStack {
                                     ForEach(matchPackage.red, id: \.self) { team in
-                                        Text(String(team))
-                                            .font(.system(size: fontSizeBase, weight: .medium, design: .default))
-                                            .foregroundColor(team == 1701 ? Color.white : Color(red: 237/255.0, green: 28/255.0, blue: 36/255.0))
+                                        Text(team)
+                                            .font(.system(size: fontSizeBase - 3, weight: .medium, design: .default).monospacedDigit())
+                                            .foregroundColor(team == "1701" ? Color.white : Color(red: 237/255.0, green: 28/255.0, blue: 36/255.0))
                                             .padding(5)
-                                            .background(team == 1701 ? Color(red: 126/255.0, green: 43/255.0, blue: 53/255.0) : Color.clear)
+                                            .background(team == "1701" ? Color(red: 126/255.0, green: 43/255.0, blue: 53/255.0) : Color.clear)
                                             .clipShape(RoundedRectangle(cornerRadius: 10, style: .circular))
-                                            .padding(.leading, team == 1701 ? 41 : 35)
+                                            .frame(width: 100, alignment: .center)
+                                            .multilineTextAlignment(.center)
+                                            .padding(.horizontal, 5)
                                     }
                                 }
+                                .padding(.trailing, 30)
                                 
                                 HStack {
                                     ForEach(matchPackage.blue, id: \.self) { team in
-                                        Text(String(team))
-                                            .font(.system(size: fontSizeBase, weight: .medium, design: .default))
-                                            .foregroundColor(team == 1701 ? Color.white : Color(red: 0/255.0, green: 101/255.0, blue: 179/255.0))
+                                        Text(team)
+                                            .font(.system(size: fontSizeBase - 3, weight: .medium, design: .default).monospacedDigit())
+                                            .foregroundColor(team == "1701" ? Color.white : Color(red: 0/255.0, green: 101/255.0, blue: 179/255.0))
                                             .padding(5)
-                                            .background(team == 1701 ? Color(red: 126/255.0, green: 43/255.0, blue: 53/255.0) : Color.clear)
+                                            .background(team == "1701" ? Color(red: 126/255.0, green: 43/255.0, blue: 53/255.0) : Color.clear)
                                             .clipShape(RoundedRectangle(cornerRadius: 10, style: .circular))
-                                            .padding(.leading, team == 1701 ? 41 : 35)
+                                            .frame(width: 100, alignment: .center)
+                                            .multilineTextAlignment(.center)
+                                            .padding(.horizontal, 5)
                                     }
                                 }
                             }
