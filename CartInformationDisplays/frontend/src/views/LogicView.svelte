@@ -43,9 +43,9 @@ $: if ($ws.message?.type == "stream") {
     {#if currentView === "sponsors"}
       <Sponsors title="Sponsors" url={`https://docs.google.com/presentation/d/e/${presentationId}/embed?start=true&loop=true&delayms=7000&rm=minimal`} />
     {:else if currentView === "youtube"}
-        <YouTube videoID="RZV4oXuTZlA" />
+        <YouTube videoID="-aWBZ_qj6Rs" />
     {:else if currentView === "twitch"}
-        <Twitch channel="funroboticsnetwork" />
+        <Twitch channel="bobross" />
     {:else if currentView === "screensaver"}
       <Screensaver position={position} />
   {/if}
