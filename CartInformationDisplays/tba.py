@@ -2,11 +2,35 @@ from dotenv import load_dotenv
 from enum import Enum
 import requests
 import os
+import time
 
 load_dotenv(override=True)
 
 apikey = os.getenv("TBA_API_KEY")
 previous_etag = ""
+
+def getMatchQueueInfo(matches):
+    queue_info = []
+
+    for match in matches:
+        myTeam = ""
+        if "1701" not in match['alliances']['red']['team_keys'] and "1701" not in match['alliances']['blue']['team_keys']:
+            continue
+        #TODO: Just add a field returned by getMatches to avoid this loop (didn't wanna mess with Swift side)
+        for team in match['alliances']['red']['team_keys']:
+            team = team.strip("frc")
+            if team == "1701":
+                myTeam = "red"
+        if myTeam == "":
+            myTeam = "blue"
+        queue_info.append({
+            "matchId": match['matchId'],
+            "time": match['time'],
+            "color" : myTeam,
+            "position" : str(match['alliances'][myTeam]['team_keys'].index("1701") + 1)
+        })
+    
+    return queue_info
 
 def getMatches(fresh=False):
     global previous_etag, apikey
