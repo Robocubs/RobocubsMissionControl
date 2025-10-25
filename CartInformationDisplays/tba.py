@@ -18,7 +18,7 @@ async def getMatches(fresh=False):
     headers = {
         "X-TBA-Auth-Key": apikey,
         "Accept": "application/json",
-        "If-None-Match": "" if not fresh else previous_etag
+        "If-None-Match": "" if fresh else previous_etag
     }
 
     async with httpx.AsyncClient() as client:
