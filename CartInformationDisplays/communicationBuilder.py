@@ -58,7 +58,7 @@ class MissionControllerEndpoint(WebSocketEndpoint):
         print("MissionController connected")
         matches = getMatches(fresh=True)
         if matches != []:
-            asyncio.run(communicationBus.sendMissionController({"type": "matchPackage", "data": matches}))
+            await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
     
     async def on_disconnect(self, websocket, close_code):
         communicationBus.missionController = None

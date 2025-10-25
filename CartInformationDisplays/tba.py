@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from enum import Enum
+import httpx
 import requests
 import os
 
@@ -8,7 +9,7 @@ load_dotenv(override=True)
 apikey = os.getenv("TBA_API_KEY")
 previous_etag = ""
 
-def getMatches(fresh=False):
+async def getMatches(fresh=False):
     global previous_etag, apikey
 
     matches = []
@@ -20,11 +21,13 @@ def getMatches(fresh=False):
         "If-None-Match": "" if not fresh else previous_etag
     }
 
-    response = requests.get("https://www.thebluealliance.com/api/v3/team/frc1701/event/2025minor/matches", headers=headers)
-    if response.status_code != 200:
-        return []
-    previous_etag = response.headers.get("Etag")
-    data = response.json()
+    async with httpx.AsyncClient() as client:
+        response = await client.get("https://www.thebluealliance.com/api/v3/team/frc1701/event/2025minor/matches", headers=headers)
+        
+        if response.status_code != 200:
+            return []
+        previous_etag = response.headers.get("Etag")
+        data = response.json()
     
     try:
         for match in data:
@@ -74,13 +77,18 @@ def getMatches(fresh=False):
 
 
 if __name__ == "__main__":
-    matches = getMatches()
-    for match in matches:
-        print(match['matchId'])
-        print(match['blue'])
-        print(match['red'])
-        print(match['time'])
-        print(match['win'] if 'win' in match else "N/A")
-        print(match['rp'] if 'rp' in match else "N/A")
-        print("-----\n")
+    import asyncio
+
+    async def main():
+        matches = await getMatches()
+        for match in matches:
+            print(match['matchId'])
+            print(match['blue'])
+            print(match['red'])
+            print(match['time'])
+            print(match['win'] if 'win' in match else "N/A")
+            print(match['rp'] if 'rp' in match else "N/A")
+            print("-----\n")
+
+    asyncio.run(main())
     

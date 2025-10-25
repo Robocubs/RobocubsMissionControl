@@ -1,21 +1,26 @@
 import asyncio
+from contextlib import asynccontextmanager
 import uvicorn
-import threading
 from app import app
 from tba import getMatches
 from communicationBus import communicationBus
-import time
 
-def threadMasterMatchDataSender():
-    matches = getMatches()
-
+async def masterMatchDataSender():
     while True:
-        time.sleep(10)
-        matches = getMatches()
+        matches = await getMatches()
         if matches != []:
-            asyncio.run(communicationBus.sendMissionController({"type": "matchPackage", "data": matches}))
+            await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
+        await asyncio.sleep(10) 
+
+@asynccontextmanager
+async def lifespan(app):
+    task = asyncio.create_task(masterMatchDataSender())
+    try:
+        yield
+    finally:
+        task.cancel()
+        await task
 
 if __name__ == "__main__":
-    masterMatchDataThread = threading.Thread(target=threadMasterMatchDataSender, daemon=True)
-    masterMatchDataThread.start()
+    app.lifespan = lifespan
     uvicorn.run(app, host="0.0.0.0", port=1701)
