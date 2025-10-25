@@ -7,7 +7,11 @@ logger = logging.getLogger(__name__)
 
 async def matchUpdate():
     while True:
-        matches = await getMatches()
-        if matches != []:
-            await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
+        try:
+            matches = await getMatches()
+            if matches != []:
+                await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
+        except Exception as e:
+            logger.error(f"Error in matchUpdate iteration: {e}", exc_info=True)
+        
         await asyncio.sleep(10)
