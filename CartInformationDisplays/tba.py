@@ -23,7 +23,6 @@ async def getMatches(fresh=False):
 
     async with httpx.AsyncClient() as client:
         response = await client.get("https://www.thebluealliance.com/api/v3/team/frc1701/event/2025minor/matches", headers=headers)
-        
         if response.status_code != 200:
             return []
         previous_etag = response.headers.get("Etag")

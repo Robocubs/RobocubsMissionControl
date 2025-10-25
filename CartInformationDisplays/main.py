@@ -12,23 +12,13 @@ from fastapi.staticfiles import StaticFiles
 import os
 
 from communicationBuilder import CartLEndpoint, CartREndpoint, MissionControllerEndpoint
-from communicationBus import communicationBus
-from tba import getMatches
+from lifespanAsyncFunctions import matchUpdate
 
 logging.basicConfig(level=logging.INFO)
 
-async def masterMatchDataSender():
-    logging.info("Hello")
-    while True:
-        logging.getLogger(__name__).info("Hello")
-        matches = await getMatches()
-        if matches != []:
-            await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
-        await asyncio.sleep(10)
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    task = asyncio.create_task(masterMatchDataSender())
+    task = asyncio.create_task(matchUpdate())
     try:
         yield
     finally:
