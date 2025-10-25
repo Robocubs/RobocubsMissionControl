@@ -1,9 +1,12 @@
 import asyncio
+import logging
 from contextlib import asynccontextmanager
 import uvicorn
 from app import app
 from tba import getMatches
 from communicationBus import communicationBus
+
+logging.basicConfig(level=logging.INFO)
 
 async def masterMatchDataSender():
     while True:

@@ -1,5 +1,8 @@
 import asyncio
+import logging
 from typing import Dict, Any, Optional
+
+logger = logging.getLogger(__name__)
 
 class CommunicationBus:
     def __init__(self):
@@ -10,23 +13,23 @@ class CommunicationBus:
     async def sendL(self, message: Dict[str, Any]):
         if self.cartL:
             await self.cartL.send_json(message)
-            print(f"Sent to CartL: {message}")
+            logger.info(f"Sent to CartL: {message}")
         else:
-            print("CartL not connected")
+            logger.info("CartL not connected")
 
     async def sendR(self, message: Dict[str, Any]):
         if self.cartR:
             await self.cartR.send_json(message)
-            print(f"Sent to CartR: {message}")
+            logger.info(f"Sent to CartR: {message}")
         else:
-            print("CartR not connected")
+            logger.info("CartR not connected")
     
     async def sendMissionController(self, message: Dict[str, Any]):
         if self.missionController:
             await self.missionController.send_json(message)
-            print(f"Sent to MissionController: {message}")
+            logger.info(f"Sent to MissionController: {message}")
         else:
-            print("MissionController not connected")
+            logger.info("MissionController not connected")
     
     async def recieveMissionController(self, data: Dict[str, Any]):
         try:
@@ -37,7 +40,7 @@ class CommunicationBus:
                 # Confirm success
                 await self.sendMissionController({"type": "confirm", "data": "true"})
         except Exception as e:
-            print(f"Error handling command: {e}")
+            logger.info(f"Error handling command: {e}")
             await self.sendMissionController({"type": "confirm", "data": "false"})
 
 # Global communication bus

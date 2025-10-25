@@ -10,6 +10,9 @@ from PySide6.QtCore import QObject, Slot, Property, Signal
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Simple backend logic class
 # class MyLogic(QObject):
@@ -38,20 +41,20 @@ app = QGuiApplication([])
 
 from PySide6.QtWebEngineCore import QWebEngineProfile
 profile = QWebEngineProfile.defaultProfile()
-print("User-Agent:", profile.httpUserAgent())
+logger.info("User-Agent:", profile.httpUserAgent())
 
 screens = app.screens()
 for i, screen in enumerate(screens):
-    print(f"Screen {i}: {screen.name()}, geometry: {screen.geometry()}")
+    logger.info(f"Screen {i}: {screen.name()}, geometry: {screen.geometry()}")
 if len(screens) < 2:
-    print("Error: Less than two displays detected.")
+    logger.info("Error: Less than two displays detected.")
     exit(-1)
 
 # First display
 engine1 = QQmlApplicationEngine()
 engine1.load(os.path.join(currentDirectory, "LeftDisplayManager.qml"))
 if not engine1.rootObjects():
-    print("Error: Failed to load QML for display 1.")
+    logger.info("Error: Failed to load QML for display 1.")
     exit(-1)
 window1 = engine1.rootObjects()[0]
 window1.setScreen(screens[1])
@@ -62,7 +65,7 @@ window1.showFullScreen()
 engine2 = QQmlApplicationEngine()
 engine2.load(os.path.join(currentDirectory, "RightDisplayManager.qml"))
 if not engine2.rootObjects():
-    print("Error: Failed to load QML for display 2.")
+    logger.info("Error: Failed to load QML for display 2.")
     exit(-1)
 window2 = engine2.rootObjects()[0]
 window2.setScreen(screens[2])

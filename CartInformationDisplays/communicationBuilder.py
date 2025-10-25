@@ -1,8 +1,9 @@
-# websocket_handlers.py
-import asyncio
+import logging
 from starlette.endpoints import WebSocketEndpoint
 from tba import getMatches
 from communicationBus import communicationBus
+
+logger = logging.getLogger(__name__)
 
 class CartLEndpoint(WebSocketEndpoint):
     encoding = "json"
@@ -15,14 +16,14 @@ class CartLEndpoint(WebSocketEndpoint):
             except:
                 pass
         communicationBus.cartL = websocket
-        print("CartL connected")
+        logger.info("CartL connected")
     
     async def on_disconnect(self, websocket, close_code):
         communicationBus.cartL = None
-        print("CartL disconnected")
+        logger.info("CartL disconnected")
     
     async def on_receive(self, websocket, data):
-        print(f"CartL received: {data}")
+        logger.info(f"CartL received: {data}")
 
 class CartREndpoint(WebSocketEndpoint):
     encoding = "json"
@@ -35,14 +36,14 @@ class CartREndpoint(WebSocketEndpoint):
             except:
                 pass
         communicationBus.cartR = websocket
-        print("CartR connected")
+        logger.info("CartR connected")
     
     async def on_disconnect(self, websocket, close_code):
         communicationBus.cartR = None
-        print("CartR disconnected")
+        logger.info("CartR disconnected")
     
     async def on_receive(self, websocket, data):
-        print(f"CartR received: {data}")
+        logger.info(f"CartR received: {data}")
 
 class MissionControllerEndpoint(WebSocketEndpoint):
     encoding = "json"
@@ -55,15 +56,15 @@ class MissionControllerEndpoint(WebSocketEndpoint):
             except:
                 pass
         communicationBus.missionController = websocket
-        print("MissionController connected")
+        logger.info("MissionController connected")
         matches = await getMatches(fresh=True)
         if matches != []:
             await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
     
     async def on_disconnect(self, websocket, close_code):
         communicationBus.missionController = None
-        print("MissionController disconnected")
+        logger.info("MissionController disconnected")
     
     async def on_receive(self, websocket, data):
         await communicationBus.recieveMissionController(data)
-        print(f"MissionController received: {data}")
+        logger.info(f"MissionController received: {data}")
