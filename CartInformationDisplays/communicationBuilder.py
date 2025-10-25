@@ -56,7 +56,7 @@ class MissionControllerEndpoint(WebSocketEndpoint):
                 pass
         communicationBus.missionController = websocket
         print("MissionController connected")
-        matches = getMatches(fresh=True)
+        matches = await getMatches(fresh=True)
         if matches != []:
             await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
     
