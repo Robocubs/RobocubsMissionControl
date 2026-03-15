@@ -11,7 +11,6 @@ public class WebSocketManager {
     public init(urlString: String) {
         self.url = URL(string: urlString)!
         self.session = URLSession(configuration: .default)
-        self.connect()
     }
 
     public func connect() {

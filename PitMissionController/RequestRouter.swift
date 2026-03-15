@@ -21,7 +21,9 @@ public func routeRequest(_ data: String) {
         case "matchPackage":
             print("Switch Okay: \(data)")
             let result = try JSONDecoder().decode(mainPayload<[matchPackage]>.self, from: Data(data.utf8))
-            MatchStore.shared.matches = result.data
+            DispatchQueue.main.async {
+                MatchStore.shared.matches = result.data
+            }
             BluetoothCentralManager.shared.sendData(Data(data.utf8))
         case "confirm":
             let message = try JSONDecoder().decode(mainPayload<String>.self, from: Data(data.utf8))

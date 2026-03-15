@@ -51,24 +51,21 @@ struct ViewController: View {
             Group {
                 switch state.controllerSleep {
                 case .MatchBoard:
-                    MatchBoard()
+                    MatchBoard(buttonInteraction: overlayManager.userInteracted
+                    )
                 case .Screensaver:
-                    Screensaver()
+                    Screensaver(buttonInteraction: overlayManager.userInteracted)
                 }
             }
                 .opacity(overlayManager.showOverlay ? 1 : 0)
                 .animation(.easeIn(duration: overlayManager.showOverlay ? 1.5 : 0.2).delay(overlayManager.showOverlay ? 1.1 : 0), value: overlayManager.showOverlay)
-            
-            Color.clear
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    overlayManager.userInteracted()
-                }
-                .allowsHitTesting(overlayManager.showOverlay)
         }
         .statusBar(hidden: true)
         .onAppear {
             UIApplication.shared.isIdleTimerDisabled = true
+            if !socket.isConnected {
+                socket.connect()
+            }
         }
     }
 }
