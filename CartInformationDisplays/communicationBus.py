@@ -9,6 +9,11 @@ class CommunicationBus:
         self.cartL: Optional[Any] = None
         self.cartR: Optional[Any] = None
         self.missionController: Optional[Any] = None
+        self.youtubeL: Optional[str] = None
+        self.twitchL: Optional[str] = None
+        self.youtubeR: Optional[str] = None
+        self.twitchR: Optional[str] = None
+        self.matchCode: Optional[str] = None
     
     async def sendL(self, message: Dict[str, Any]):
         if self.cartL:
@@ -33,14 +38,38 @@ class CommunicationBus:
     
     async def recieveMissionController(self, data: Dict[str, Any]):
         try:
-            if data.get("type") == "state" or data.get("type") == "stateL" or data.get("type") == "stateR":
+            msg_type = data.get("type")
+
+            if msg_type == "state" or msg_type == "stateL" or msg_type == "stateR":
                 # Send to both carts
                 await self.sendL(data)
                 await self.sendR(data)
                 # Confirm success
                 await self.sendMissionController({"type": "confirm", "data": "true"})
+            elif msg_type == "youtubeLUpdate":
+                self.youtubeL = data.get("data")
+                await self.sendL({"type": "youtubeLUpdate", "data": data.get("data")})
+                await self.sendMissionController({"type": "confirm", "data": "true"})
+            elif msg_type == "youtubeRUpdate":
+                self.youtubeR = data.get("data")
+                await self.sendR({"type": "youtubeRUpdate", "data": data.get("data")})
+                await self.sendMissionController({"type": "confirm", "data": "true"})
+            elif msg_type == "twitchLUpdate":
+                self.twitchL = data.get("data")
+                await self.sendL({"type": "twitchLUpdate", "data": data.get("data")})
+                await self.sendMissionController({"type": "confirm", "data": "true"})
+            elif msg_type == "twitchRUpdate":
+                self.twitchR = data.get("data")
+                await self.sendR({"type": "twitchRUpdate", "data": data.get("data")})
+                await self.sendMissionController({"type": "confirm", "data": "true"})
+            elif msg_type == "matchCode":
+                self.matchCode = data.get("data")
+                await self.sendMissionController({"type": "confirm", "data": "true"})
+            else:
+                logger.info(f"Unknown command type: {msg_type}")
+                await self.sendMissionController({"type": "confirm", "data": "false"})
         except Exception as e:
-            logger.info(f"Error handling command: {e}")
+            logger.error(f"Error handling command: {e}")
             await self.sendMissionController({"type": "confirm", "data": "false"})
 
 # Global communication bus

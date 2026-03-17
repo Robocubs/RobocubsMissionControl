@@ -16,3 +16,18 @@ public class SharedStates: ObservableObject {
 }
 
 public let sharedStates = SharedStates()
+
+/// In-memory cache for the last submitted value of each popover field, keyed by messageType.
+/// Also updated when the server sends back a cached value on connect.
+public class PopoverCache: ObservableObject {
+    public static let shared = PopoverCache()
+    @Published public var values: [String: String] = [:]
+
+    public func set(_ value: String, for key: String) {
+        values[key] = value
+    }
+
+    public func get(_ key: String) -> String {
+        values[key] ?? ""
+    }
+}

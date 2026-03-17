@@ -12,15 +12,27 @@ class TimeoutManager: ObservableObject {
     @Published var showOverlay = false
     private var cancellable: AnyCancellable?
     private let timeout: TimeInterval
+    var isPaused = false
     
-    init(timeout: TimeInterval = 10) {
+    init(timeout: TimeInterval = 15) {
         self.timeout = timeout
         startTimer()
     }
     
     func userInteracted() {
+        guard !isPaused else { return }
         startTimer()
         showOverlay = false
+    }
+    
+    func pause() {
+        isPaused = true
+        cancellable?.cancel()
+    }
+    
+    func resume() {
+        isPaused = false
+        startTimer()
     }
     
     private func startTimer() {
@@ -42,29 +54,90 @@ struct ViewController: View {
     
     @ObservedObject var state = sharedStates
     
+    @State private var blackOpacity: Double = 0
+    @State private var showingOverlay: Bool = false
+    @State private var isFading: Bool = false
+    @State private var transitionTask: Task<Void, Never>? = nil
+
     var body: some View {
         ZStack {
-            Control()
-                .opacity(overlayManager.showOverlay ? 0 : 1)
-                .animation(.easeIn(duration: overlayManager.showOverlay ? 1.5 : 0.2).delay(overlayManager.showOverlay ? 0 : 0.1), value: overlayManager.showOverlay)
-            
-            Group {
-                switch state.controllerSleep {
-                case .MatchBoard:
-                    MatchBoard(buttonInteraction: overlayManager.userInteracted
-                    )
-                case .Screensaver:
-                    Screensaver(buttonInteraction: overlayManager.userInteracted)
+            if showingOverlay {
+                Group {
+                    switch state.controllerSleep {
+                    case .MatchBoard:
+                        MatchBoard(buttonInteraction: overlayManager.userInteracted)
+                    case .Screensaver:
+                        Screensaver(buttonInteraction: overlayManager.userInteracted)
+                    }
                 }
+            } else {
+                Control(
+                    onPopoverOpen: overlayManager.pause,
+                    onPopoverClose: overlayManager.resume
+                )
             }
-                .opacity(overlayManager.showOverlay ? 1 : 0)
-                .animation(.easeIn(duration: overlayManager.showOverlay ? 1.5 : 0.2).delay(overlayManager.showOverlay ? 1.1 : 0), value: overlayManager.showOverlay)
+
+            // Black fade layer
+            Color.black
+                .opacity(blackOpacity)
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+
+            // Full-screen tap interceptor — active for the entire duration of any transition.
+            // Tapping during an outgoing fade cancels it and snaps back.
+            if isFading {
+                Color.clear
+                    .ignoresSafeArea()
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        overlayManager.userInteracted()
+                    }
+            }
         }
         .statusBar(hidden: true)
         .onAppear {
             UIApplication.shared.isIdleTimerDisabled = true
             if !socket.isConnected {
                 socket.connect()
+            }
+        }
+        .onChange(of: overlayManager.showOverlay) { _, show in
+            transitionTask?.cancel()
+            if show {
+                transitionTask = Task {
+                    isFading = true
+                    // Fade out control
+                    withAnimation(.easeInOut(duration: 0.6)) { blackOpacity = 1 }
+                    try? await Task.sleep(for: .seconds(0.65))
+                    guard !Task.isCancelled else {
+                        // User tapped — snap back
+                        withAnimation(.easeInOut(duration: 0.3)) { blackOpacity = 0 }
+                        isFading = false
+                        return
+                    }
+                    showingOverlay = true
+                    // Fade in overlay
+                    withAnimation(.easeInOut(duration: 0.6)) { blackOpacity = 0 }
+                    try? await Task.sleep(for: .seconds(0.65))
+                    isFading = false
+                }
+            } else {
+                transitionTask = Task {
+                    isFading = true
+                    // Fade out overlay
+                    withAnimation(.easeInOut(duration: 0.2)) { blackOpacity = 1 }
+                    try? await Task.sleep(for: .seconds(0.25))
+                    guard !Task.isCancelled else {
+                        withAnimation(.easeInOut(duration: 0.2)) { blackOpacity = 0 }
+                        isFading = false
+                        return
+                    }
+                    showingOverlay = false
+                    // Fade in control
+                    withAnimation(.easeInOut(duration: 0.2)) { blackOpacity = 0 }
+                    try? await Task.sleep(for: .seconds(0.25))
+                    isFading = false
+                }
             }
         }
     }

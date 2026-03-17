@@ -27,6 +27,8 @@
 
   let currentView = views.screensaver;
   let streamType = player.youtube;
+  let videoID = "RZV4oXuTZlA";
+  let channel = "firstinohio";
 
 $: if ($ws.message?.type === "state" || ($ws.message?.type === "state" + position)) {
     const key = $ws.message?.data as keyof typeof views;
@@ -37,15 +39,25 @@ $: if ($ws.message?.type == "stream") {
     const key = $ws.message?.data as keyof typeof player;
     currentView = player[key] ?? player.youtube;
   }
+
+$: if ($ws.message?.type === "youtubeUpdate") {
+    videoID = $ws.message?.data;
+    currentView = views.youtube;
+  }
+
+$: if ($ws.message?.type === "twitchUpdate") {
+    channel = $ws.message?.data;
+    currentView = views.twitch;
+  }
 </script>
 
 <main>
     {#if currentView === "sponsors"}
       <Sponsors title="Sponsors" url={`https://docs.google.com/presentation/d/e/${presentationId}/embed?start=true&loop=true&delayms=7000&rm=minimal`} />
     {:else if currentView === "youtube"}
-        <YouTube videoID="RZV4oXuTZlA" />
+        <YouTube {videoID} />
     {:else if currentView === "twitch"}
-        <Twitch channel="firstinohio" />
+        <Twitch {channel} />
     {:else if currentView === "screensaver"}
       <Screensaver position={position} />
   {/if}

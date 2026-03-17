@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 class CartLEndpoint(WebSocketEndpoint):
     encoding = "json"
-    
+
     async def on_connect(self, websocket):
         await websocket.accept()
         if communicationBus.cartL:
@@ -17,6 +17,12 @@ class CartLEndpoint(WebSocketEndpoint):
                 pass
         communicationBus.cartL = websocket
         logger.info("CartL connected")
+
+        # Send stored video URL if available
+        if communicationBus.youtubeL:
+            await websocket.send_json({"type": "youtubeUpdate", "data": communicationBus.youtubeL})
+        if communicationBus.twitchL:
+            await websocket.send_json({"type": "twitchUpdate", "data": communicationBus.twitchL})
     
     async def on_disconnect(self, websocket, close_code):
         communicationBus.cartL = None
@@ -27,7 +33,7 @@ class CartLEndpoint(WebSocketEndpoint):
 
 class CartREndpoint(WebSocketEndpoint):
     encoding = "json"
-    
+
     async def on_connect(self, websocket):
         await websocket.accept()
         if communicationBus.cartR:
@@ -37,6 +43,12 @@ class CartREndpoint(WebSocketEndpoint):
                 pass
         communicationBus.cartR = websocket
         logger.info("CartR connected")
+
+        # Send stored video URL if available
+        if communicationBus.youtubeR:
+            await websocket.send_json({"type": "youtubeUpdate", "data": communicationBus.youtubeR})
+        if communicationBus.twitchR:
+            await websocket.send_json({"type": "twitchUpdate", "data": communicationBus.twitchR})
     
     async def on_disconnect(self, websocket, close_code):
         communicationBus.cartR = None
@@ -62,6 +74,20 @@ class MissionControllerEndpoint(WebSocketEndpoint):
         matches = await getMatches(fresh=True)
         if matches != []:
             await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
+
+        # Send cached video states
+        if communicationBus.youtubeL:
+            await communicationBus.sendMissionController({"type": "youtubeLUpdate", "data": communicationBus.youtubeL})
+        if communicationBus.twitchL:
+            await communicationBus.sendMissionController({"type": "twitchLUpdate", "data": communicationBus.twitchL})
+        if communicationBus.youtubeR:
+            await communicationBus.sendMissionController({"type": "youtubeRUpdate", "data": communicationBus.youtubeR})
+        if communicationBus.twitchR:
+            await communicationBus.sendMissionController({"type": "twitchRUpdate", "data": communicationBus.twitchR})
+
+        # Send match code if available
+        if communicationBus.matchCode:
+            await communicationBus.sendMissionController({"type": "matchCode", "data": communicationBus.matchCode})
     
     async def on_disconnect(self, websocket, close_code):
         communicationBus.missionController = None
