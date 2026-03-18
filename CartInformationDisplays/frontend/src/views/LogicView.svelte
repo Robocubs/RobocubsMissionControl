@@ -35,11 +35,6 @@ $: if ($ws.message?.type === "state" || ($ws.message?.type === "state" + positio
     currentView = views[key] ?? views.sponsors;
 }
 
-$: if ($ws.message?.type == "stream") {
-    const key = $ws.message?.data as keyof typeof player;
-    currentView = player[key] ?? player.youtube;
-  }
-
 $: if ($ws.message?.type === "youtubeUpdate") {
     videoID = $ws.message?.data;
     currentView = views.youtube;
