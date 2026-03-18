@@ -27,8 +27,8 @@
 
   let currentView = views.screensaver;
   let streamType = player.youtube;
-  let videoID = "RZV4oXuTZlA";
-  let channel = "firstinohio";
+  let videoID = "";
+  let channel = "";
 
 $: if ($ws.message?.type === "state" || ($ws.message?.type === "state" + position)) {
     const key = $ws.message?.data as keyof typeof views;
