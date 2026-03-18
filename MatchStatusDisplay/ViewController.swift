@@ -15,17 +15,19 @@ struct ViewController: View {
     }
     
     var body: some View {
-        Group {
-            switch sharedStates.sign {
-            case .MatchBoard:
-                MatchBoard()
-            case .Screensaver:
-                Screensaver()
+        ZStack {
+            Group {
+                switch sharedStates.sign {
+                case .MatchBoard:
+                    MatchBoard()
+                case .Screensaver:
+                    Screensaver()
+                }
             }
-        }
-        .statusBar(hidden: true)
-        .onAppear {
-            UIApplication.shared.isIdleTimerDisabled = true
+            .statusBar(hidden: true)
+            .onAppear {
+                UIApplication.shared.isIdleTimerDisabled = true
+            }
         }
     }
 }

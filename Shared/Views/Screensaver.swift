@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct Screensaver: View {
+    let buttonInteraction: (() -> Void)?
+    init(buttonInteraction: (() -> Void)? = nil) {
+        self.buttonInteraction = buttonInteraction
+    }
+    
     var body: some View {
         ZStack {
             Color.black
@@ -16,6 +21,9 @@ struct Screensaver: View {
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
+        }
+        .onTapGesture {
+            buttonInteraction?()
         }
     }
 }

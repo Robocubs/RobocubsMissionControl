@@ -30,6 +30,17 @@ struct ControlButton<State: DisplayState>: View {
     let title: String
     let action: State
     let screen: Target
+    let popoverControl: Binding<Bool>?
+    
+    let buttonInteraction: (() -> Void)?
+    
+    init(title: String, action: State, screen: Target, popoverControl: Binding<Bool>? = nil, buttonInteraction: (() -> Void)? = nil) {
+        self.title = title
+        self.action = action
+        self.screen = screen
+        self.popoverControl = popoverControl
+        self.buttonInteraction = buttonInteraction
+    }
     
     @ObservedObject var state = sharedStates
     var selfId: State {
@@ -46,34 +57,41 @@ struct ControlButton<State: DisplayState>: View {
     }
     
     var body: some View {
-        Button(action: {
-            switch screen {
-            case .left:
-                state.stateL = action as! CartStates
-                socket.sendMessage(type: screen.description, data: state.stateL.description)
-            case .right:
-                state.stateR = action as! CartStates
-                socket.sendMessage(type: screen.description, data: state.stateR.description)
-            case .sign:
-                state.sign = action as! SignStates
-                if let data = BluetoothCentralManager.shared.prepareData(type: screen.description, data: state.sign) {
-                    BluetoothCentralManager.shared.sendData(data)
+        Text(title)
+            .font(.title2)
+            .foregroundColor(.white)
+            .bold()
+            .frame(width: 250, height: 100)
+
+            .background(selfId == action ? Color.blue : Color.gray)
+            .cornerRadius(50)
+            .glassEffect(.regular.tint(colorScheme == .dark ? Color.black : Color.black.opacity(0.2)))
+            .glassEffect(.regular.tint(selfId == action ? Color.blue : Color.white).interactive())
+            .animation(.easeOut(duration: 0.1), value: selfId == action)
+
+            .contentShape(Rectangle())
+
+            .onTapGesture {
+                buttonInteraction?()
+                switch screen {
+                case .left:
+                    state.stateL = action as! CartStates
+                    socket.sendMessage(type: screen.description, data: state.stateL.description)
+                case .right:
+                    state.stateR = action as! CartStates
+                    socket.sendMessage(type: screen.description, data: state.stateR.description)
+                case .sign:
+                    state.sign = action as! SignStates
+                    if let data = BluetoothCentralManager.shared.prepareData(type: screen.description, data: state.sign) {
+                        BluetoothCentralManager.shared.sendData(data)
+                    }
+                case .controller:
+                    state.controllerSleep = action as! ControllerSleepStates
                 }
-            case .controller:
-                state.controllerSleep = action as! ControllerSleepStates
             }
-            
-        }) {
-            Text(title)
-                .font(.title2)
-                .foregroundColor(.white)
-                .bold()
-                .frame(width: 250, height: 100)
-        }
-        .background(selfId == action ? Color.blue : Color.gray)
-        .cornerRadius(50)
-        .glassEffect(.regular.tint(colorScheme == .dark ? Color.black : Color.black.opacity(0.2)))
-        .glassEffect(.regular.tint(selfId == action ? Color.blue : Color.white).interactive())
+            .onLongPressGesture(minimumDuration: 0.5) {
+                popoverControl?.wrappedValue = true
+            }
     }
 }
 

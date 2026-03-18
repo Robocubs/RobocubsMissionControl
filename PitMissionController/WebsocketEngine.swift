@@ -11,11 +11,10 @@ public class WebSocketManager {
     public init(urlString: String) {
         self.url = URL(string: urlString)!
         self.session = URLSession(configuration: .default)
-        self.connect()
     }
 
     public func connect() {
-        print("Connecting to \(url)")
+        print("[WebSocket] Connecting to \(url)")
         webSocketTask = session.webSocketTask(with: url)
         webSocketTask?.resume()
         isConnected = true
@@ -35,7 +34,7 @@ public class WebSocketManager {
         let msg = URLSessionWebSocketTask.Message.string(message)
         webSocketTask?.send(msg) { error in
             if let error = error {
-                print("Send error: \(error)")
+                print("[WebSocket] Send error: \(error.localizedDescription)")
             }
         }
     }
@@ -46,18 +45,15 @@ public class WebSocketManager {
 
             switch result {
             case .failure(let error):
-                print("Receive error: \(error.localizedDescription)")
+                print("[WebSocket] Disconnected: \(error.localizedDescription)")
                 self.reconnect()
             case .success(let message):
                 switch message {
                 case .string(let text):
-                    print("Received string: \(text)")
                     routeRequest(text)
                 default:
-                    print("Received non-string message")
+                    break
                 }
-
-                // Continue listening
                 self.listen()
             }
         }
@@ -66,7 +62,7 @@ public class WebSocketManager {
     private func reconnect() {
         guard isConnected else { return }
 
-        print("Attempting reconnect in \(reconnectDelay) seconds...")
+        print("[WebSocket] Reconnecting in \(reconnectDelay)s...")
         DispatchQueue.global().asyncAfter(deadline: .now() + reconnectDelay) { [weak self] in
             self?.connect()
         }
@@ -77,17 +73,15 @@ public class WebSocketManager {
         do {
             let jsonData = try JSONEncoder().encode(payload)
             if let jsonString = String(data: jsonData, encoding: .utf8) {
-                print(jsonString)
                 if isConnected {
                     send(message: jsonString)
                 }
-            } else {
-                print("Failed to convert JSON data to string.")
             }
         } catch {
-            print("Failed to encode payload: \(error)")
+            print("[WebSocket] Encode error: \(error)")
         }
     }
 }
 
 public var socket = WebSocketManager(urlString: "ws://192.168.105.10:1701/missionController")
+//public var socket = WebSocketManager(urlString: "ws://10.7.14.113:1701/missionController")
