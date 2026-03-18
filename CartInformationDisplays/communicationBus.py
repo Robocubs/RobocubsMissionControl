@@ -48,19 +48,19 @@ class CommunicationBus:
                 await self.sendMissionController({"type": "confirm", "data": "true"})
             elif msg_type == "youtubeLUpdate":
                 self.youtubeL = data.get("data")
-                await self.sendL({"type": "youtubeLUpdate", "data": data.get("data")})
+                await self.sendL({"type": "youtubeUpdate", "data": data.get("data")})
                 await self.sendMissionController({"type": "confirm", "data": "true"})
             elif msg_type == "youtubeRUpdate":
                 self.youtubeR = data.get("data")
-                await self.sendR({"type": "youtubeRUpdate", "data": data.get("data")})
+                await self.sendR({"type": "youtubeUpdate", "data": data.get("data")})
                 await self.sendMissionController({"type": "confirm", "data": "true"})
             elif msg_type == "twitchLUpdate":
                 self.twitchL = data.get("data")
-                await self.sendL({"type": "twitchLUpdate", "data": data.get("data")})
+                await self.sendL({"type": "twitchUpdate", "data": data.get("data")})
                 await self.sendMissionController({"type": "confirm", "data": "true"})
             elif msg_type == "twitchRUpdate":
                 self.twitchR = data.get("data")
-                await self.sendR({"type": "twitchRUpdate", "data": data.get("data")})
+                await self.sendR({"type": "twitchUpdate", "data": data.get("data")})
                 await self.sendMissionController({"type": "confirm", "data": "true"})
             elif msg_type == "matchCode":
                 self.matchCode = data.get("data")
