@@ -6,9 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E4BF2D752F6CC0D20050B8B4 /* MissionControl.icon in Resources */ = {isa = PBXBuildFile; fileRef = E4BF2D742F6CC0D20050B8B4 /* MissionControl.icon */; };
+		E4BF2D762F6CC0D20050B8B4 /* MissionControl.icon in Resources */ = {isa = PBXBuildFile; fileRef = E4BF2D742F6CC0D20050B8B4 /* MissionControl.icon */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		E452D9B22E258FC400D30C66 /* MatchStatusDisplay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MatchStatusDisplay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E452D9C12E259C1700D30C66 /* PitMissionController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitMissionController.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4BF2D742F6CC0D20050B8B4 /* MissionControl.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = MissionControl.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -96,6 +102,7 @@
 		E452D9972E258F8300D30C66 = {
 			isa = PBXGroup;
 			children = (
+				E4BF2D742F6CC0D20050B8B4 /* MissionControl.icon */,
 				E452D9B32E258FC500D30C66 /* MatchStatusDisplay */,
 				E452D9C22E259C1700D30C66 /* PitMissionController */,
 				E452D9A12E258F8300D30C66 /* Products */,
@@ -203,6 +210,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4BF2D752F6CC0D20050B8B4 /* MissionControl.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4BF2D762F6CC0D20050B8B4 /* MissionControl.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
