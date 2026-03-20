@@ -71,9 +71,18 @@ class MissionControllerEndpoint(WebSocketEndpoint):
         logger.info("MissionController connected")
 
         # Init Data Send (on connect)
-        matches = await getMatches(fresh=True)
-        if matches != []:
-            await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
+        try:
+            logger.info("Fetching matches on connect...")
+            matches = await getMatches(fresh=True)
+            logger.info(f"Got matches: {matches}")
+            if matches != []:
+                await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
+            else:
+                logger.warning("No matches returned, sending empty package")
+                await communicationBus.sendMissionController({"type": "matchPackage", "data": []})
+        except Exception as e:
+            logger.error(f"Error fetching matches: {e}", exc_info=True)
+            await communicationBus.sendMissionController({"type": "matchPackageError", "data": str(e)})
 
         # Send cached video states
         if communicationBus.youtubeL:
