@@ -49,6 +49,19 @@ public func routeRequest(_ data: String) {
             DispatchQueue.main.async {
                 PopoverCache.shared.set(message.data, for: message.type)
             }
+        case "requestTwitchL", "requestTwitchR", "requestYoutubeL", "requestYoutubeR", "requestMatchCode":
+            let cacheKeyMap = [
+                "requestTwitchL": "twitchLUpdate",
+                "requestTwitchR": "twitchRUpdate",
+                "requestYoutubeL": "youtubeLUpdate",
+                "requestYoutubeR": "youtubeRUpdate",
+                "requestMatchCode": "matchCode"
+            ]
+            if let cacheKey = cacheKeyMap[type] {
+                let value = PopoverCache.shared.get(cacheKey)
+                guard !value.isEmpty else { return }
+                socket.sendMessage(type: cacheKey, data: value)
+            }
         default:
             print("Unknown type: \(type)")
         }

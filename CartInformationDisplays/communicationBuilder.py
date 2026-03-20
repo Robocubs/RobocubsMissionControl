@@ -95,19 +95,37 @@ async def _initialHandshake():
     # Send cached video states
     if communicationBus.youtubeL:
         await communicationBus.sendMissionController({"type": "youtubeLUpdate", "data": communicationBus.youtubeL})
+    else:
+        await communicationBus.sendMissionController(buildMessagePackage("requestYoutubeL", None))
+    
     if communicationBus.twitchL:
         await communicationBus.sendMissionController({"type": "twitchLUpdate", "data": communicationBus.twitchL})
+    else:
+        await communicationBus.sendMissionController(buildMessagePackage("requestTwitchL", None))
+
     if communicationBus.youtubeR:
         await communicationBus.sendMissionController({"type": "youtubeRUpdate", "data": communicationBus.youtubeR})
+    else:
+        await communicationBus.sendMissionController(buildMessagePackage("requestYoutubeR", None))
+    
     if communicationBus.twitchR:
         await communicationBus.sendMissionController({"type": "twitchRUpdate", "data": communicationBus.twitchR})
+    else:
+        await communicationBus.sendMissionController(buildMessagePackage("requestTwitchR", None))
 
     # Send match code if available
     if communicationBus.matchCode:
         await communicationBus.sendMissionController({"type": "matchCode", "data": communicationBus.matchCode})
+    else:
+        await communicationBus.sendMissionController(buildMessagePackage("requestMatchCode", None))
 
     # Send current states
     if communicationBus.screenStateL:
         await communicationBus.sendMissionController(buildMessagePackage("stateL", communicationBus.screenStateL))
+    else:
+        await communicationBus.sendMissionController(buildMessagePackage("requestStateL", None))
+
     if communicationBus.screenStateR:
         await communicationBus.sendMissionController(buildMessagePackage("stateR", communicationBus.screenStateR))
+    else:
+        await communicationBus.sendMissionController(buildMessagePackage("requestStateR", None))
