@@ -73,13 +73,12 @@ class MissionControllerEndpoint(WebSocketEndpoint):
         # Init Data Send (on connect)
         try:
             logger.info("Fetching matches on connect...")
-            matches = await getMatches(fresh=True)
+            matches = await getMatches(event_code=communicationBus.matchCode, fresh=True)
             logger.info(f"Got matches: {matches}")
             if matches != []:
                 await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
             else:
-                logger.warning("No matches returned, sending empty package")
-                await communicationBus.sendMissionController({"type": "matchPackage", "data": []})
+                logger.warning("No matches returned")
         except Exception as e:
             logger.error(f"Error fetching matches: {e}", exc_info=True)
             await communicationBus.sendMissionController({"type": "matchPackageError", "data": str(e)})
