@@ -25,6 +25,22 @@ public func routeRequest(_ data: String) {
                 MatchStore.shared.matches = result.data
             }
             BluetoothCentralManager.shared.sendData(Data(data.utf8))
+        case "stateL":
+            print("StateL Response: \(data)")
+            let result = try JSONDecoder().decode(mainPayload<String>.self, from: Data(data.utf8))
+            DispatchQueue.main.async {
+                if let state = CartStates(rawValue: result.data) {
+                    sharedStates.stateL = state
+                }
+            }
+        case "stateR":
+            print("StateR Response: \(data)")
+            let result = try JSONDecoder().decode(mainPayload<String>.self, from: Data(data.utf8))
+            DispatchQueue.main.async {
+                if let state = CartStates(rawValue: result.data) {
+                    sharedStates.stateR = state
+                }
+            }
         case "confirm":
             let message = try JSONDecoder().decode(mainPayload<String>.self, from: Data(data.utf8))
             print("Received text message: \(message.data)")

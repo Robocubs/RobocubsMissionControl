@@ -2,6 +2,7 @@ import logging
 from starlette.endpoints import WebSocketEndpoint
 from tba import getMatches
 from communicationBus import communicationBus
+from sharedFunctions import buildMessagePackage
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +30,10 @@ class CartLEndpoint(WebSocketEndpoint):
         logger.info("CartL disconnected")
     
     async def on_receive(self, websocket, data):
-        logger.info(f"CartL received: {data}")
+        if data.get("type") == "state":
+            communicationBus.screenStateL = data.get("data")
+        else:
+            logger.info(f"CartL received unknown type: {data.get('type')}")
 
 class CartREndpoint(WebSocketEndpoint):
     encoding = "json"
@@ -55,7 +59,10 @@ class CartREndpoint(WebSocketEndpoint):
         logger.info("CartR disconnected")
     
     async def on_receive(self, websocket, data):
-        logger.info(f"CartR received: {data}")
+        if data.get("type") == "state":
+            communicationBus.screenStateR = data.get("data")
+        else:
+            logger.info(f"CartR received unknown type: {data.get('type')}")
 
 class MissionControllerEndpoint(WebSocketEndpoint):
     encoding = "json"
@@ -70,24 +77,7 @@ class MissionControllerEndpoint(WebSocketEndpoint):
         communicationBus.missionController = websocket
         logger.info("MissionController connected")
 
-        # Init Data Send (on connect)
-        matches = await getMatches(fresh=True)
-        if matches != []:
-            await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
-
-        # Send cached video states
-        if communicationBus.youtubeL:
-            await communicationBus.sendMissionController({"type": "youtubeLUpdate", "data": communicationBus.youtubeL})
-        if communicationBus.twitchL:
-            await communicationBus.sendMissionController({"type": "twitchLUpdate", "data": communicationBus.twitchL})
-        if communicationBus.youtubeR:
-            await communicationBus.sendMissionController({"type": "youtubeRUpdate", "data": communicationBus.youtubeR})
-        if communicationBus.twitchR:
-            await communicationBus.sendMissionController({"type": "twitchRUpdate", "data": communicationBus.twitchR})
-
-        # Send match code if available
-        if communicationBus.matchCode:
-            await communicationBus.sendMissionController({"type": "matchCode", "data": communicationBus.matchCode})
+        await _initialHandshake()
     
     async def on_disconnect(self, websocket, close_code):
         communicationBus.missionController = None
@@ -96,3 +86,28 @@ class MissionControllerEndpoint(WebSocketEndpoint):
     async def on_receive(self, websocket, data):
         await communicationBus.recieveMissionController(data)
         logger.info(f"MissionController received: {data}")
+
+async def _initialHandshake():
+    matches = await getMatches(fresh=True)
+    if matches != []:
+        await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
+
+    # Send cached video states
+    if communicationBus.youtubeL:
+        await communicationBus.sendMissionController({"type": "youtubeLUpdate", "data": communicationBus.youtubeL})
+    if communicationBus.twitchL:
+        await communicationBus.sendMissionController({"type": "twitchLUpdate", "data": communicationBus.twitchL})
+    if communicationBus.youtubeR:
+        await communicationBus.sendMissionController({"type": "youtubeRUpdate", "data": communicationBus.youtubeR})
+    if communicationBus.twitchR:
+        await communicationBus.sendMissionController({"type": "twitchRUpdate", "data": communicationBus.twitchR})
+
+    # Send match code if available
+    if communicationBus.matchCode:
+        await communicationBus.sendMissionController({"type": "matchCode", "data": communicationBus.matchCode})
+
+    # Send current states
+    if communicationBus.screenStateL:
+        await communicationBus.sendMissionController(buildMessagePackage("stateL", communicationBus.screenStateL))
+    if communicationBus.screenStateR:
+        await communicationBus.sendMissionController(buildMessagePackage("stateR", communicationBus.screenStateR))

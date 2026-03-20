@@ -75,10 +75,8 @@ struct ControlButton<State: DisplayState>: View {
                 buttonInteraction?()
                 switch screen {
                 case .left:
-                    state.stateL = action as! CartStates
                     socket.sendMessage(type: screen.description, data: state.stateL.description)
                 case .right:
-                    state.stateR = action as! CartStates
                     socket.sendMessage(type: screen.description, data: state.stateR.description)
                 case .sign:
                     state.sign = action as! SignStates

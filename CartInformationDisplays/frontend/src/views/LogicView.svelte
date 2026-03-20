@@ -5,6 +5,7 @@
   import Screensaver from "./Screensaver.svelte";
 
   import createWebsocketTunnel from "../websocketTunnel";
+  import { buildMessagePackage } from "../sharedFunctions";
 
   export let wsEndpoint: string;
   export let presentationId: string;
@@ -26,23 +27,24 @@
   } 
 
   let currentView = views.screensaver;
-  let streamType = player.youtube;
   let videoID = "";
   let channel = "";
 
 $: if ($ws.message?.type === "state" || ($ws.message?.type === "state" + position)) {
     const key = $ws.message?.data as keyof typeof views;
-    currentView = views[key] ?? views.sponsors;
+    currentView = views[key] ?? views.screensaver;
+    ws.sendMessage(buildMessagePackage("state", currentView));
 }
 
 $: if ($ws.message?.type === "youtubeUpdate") {
     videoID = $ws.message?.data;
-    currentView = views.youtube;
+    ws.sendMessage(buildMessagePackage("youtubeUpdate", true));
+
   }
 
 $: if ($ws.message?.type === "twitchUpdate") {
     channel = $ws.message?.data;
-    currentView = views.twitch;
+    ws.sendMessage(buildMessagePackage("twitchUpdate", true));
   }
 </script>
 

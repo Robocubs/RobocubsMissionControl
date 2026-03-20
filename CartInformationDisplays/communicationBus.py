@@ -6,9 +6,16 @@ logger = logging.getLogger(__name__)
 
 class CommunicationBus:
     def __init__(self):
+        # Connection references
         self.cartL: Optional[Any] = None
         self.cartR: Optional[Any] = None
         self.missionController: Optional[Any] = None
+
+        # Cached states
+        self.screenStateL: Optional[str] = None
+        self.screenStateR: Optional[str] = None
+
+        # Cached values
         self.youtubeL: Optional[str] = None
         self.twitchL: Optional[str] = None
         self.youtubeR: Optional[str] = None
