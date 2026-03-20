@@ -43,6 +43,26 @@ class CommunicationBus:
         else:
             logger.info("MissionController not connected")
     
+    async def recieveL(self, data: Dict[str, Any]):
+      try:                                                            
+          msg_type = data.get("type")
+          if msg_type == "state":                                     
+              self.screenStateL = data.get("data")
+              logger.info(f"CartL state updated: {self.screenStateL}")
+              await self.sendMissionController({"type": "stateL", "data": self.screenStateL})                         
+      except Exception as e:                                          
+          logger.info(f"Error handling CartL message: {e}")          
+                  
+    async def recieveR(self, data: Dict[str, Any]):                     
+      try:
+            msg_type = data.get("type")                                 
+            if msg_type == "state":
+                self.screenStateR = data.get("data")                    
+                logger.info(f"CartR state updated: {self.screenStateR}")               
+                await self.sendMissionController({"type": "stateR", "data": self.screenStateR})                         
+      except Exception as e:                                          
+          logger.info(f"Error handling CartR message: {e}")
+
     async def recieveMissionController(self, data: Dict[str, Any]):
         try:
             msg_type = data.get("type")
