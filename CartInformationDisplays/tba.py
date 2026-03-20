@@ -75,6 +75,7 @@ async def getMatches(event_code=None, fresh=False):
     except Exception:
         pass
 
+    print("Fetched matches from TBA")
     return matches
 
 
