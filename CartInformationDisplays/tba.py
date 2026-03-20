@@ -9,8 +9,11 @@ load_dotenv(override=True)
 apikey = os.getenv("TBA_API_KEY")
 previous_etag = ""
 
-async def getMatches(fresh=False):
+async def getMatches(event_code=None, fresh=False):
     global previous_etag, apikey
+
+    if not event_code:
+        return []
 
     matches = []
     myTeam = ""
@@ -22,7 +25,7 @@ async def getMatches(fresh=False):
     }
 
     async with httpx.AsyncClient() as client:
-        response = await client.get("https://www.thebluealliance.com/api/v3/team/frc1701/event/2025minor/matches", headers=headers)
+        response = await client.get(f"https://www.thebluealliance.com/api/v3/team/frc1701/event/{event_code}/matches", headers=headers)
         if response.status_code != 200:
             return []
         previous_etag = response.headers.get("Etag")
