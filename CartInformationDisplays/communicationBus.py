@@ -19,8 +19,8 @@ class CommunicationBus:
         self.twitchR: Optional[str] = None
         self.livestreamL: Optional[str] = "udp://239.255.0.0:1234"
         self.livestreamR: Optional[str] = "udp://239.255.0.0:1234"
-        self.stateL: str = "localLivestream"
-        self.stateR: str = "screensaver"
+        self.stateL: str = "screensaver"
+        self.stateR: str = "localLivestream"
         self.matchCode: Optional[str] = None
         self._ffmpegL: Optional[asyncio.subprocess.Process] = None
         self._ffmpegR: Optional[asyncio.subprocess.Process] = None
