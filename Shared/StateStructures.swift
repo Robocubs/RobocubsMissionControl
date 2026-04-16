@@ -14,7 +14,7 @@ public enum CartStates: String, DisplayState {
     case Sponsors = "sponsors"
     case YouTube = "youtube"
     case Twitch = "twitch"
-    case Livestream = "livestream"
+    case Livestream = "localLivestream"
     case Screensaver = "screensaver"
 
     public var description: String {
@@ -22,7 +22,7 @@ public enum CartStates: String, DisplayState {
         case .Sponsors: return "sponsors"
         case .YouTube: return "youtube"
         case .Twitch: return "twitch"
-        case .Livestream: return "livestream"
+        case .Livestream: return "localLivestream"
         case .Screensaver: return "screensaver"
         }
     }

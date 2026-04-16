@@ -41,7 +41,7 @@ struct Control: View {
                 ControlButton(title: "Sponsors", action: CartStates.Sponsors, screen: .left, buttonInteraction: buttonInteraction)
                 ControlButton(title: "Twitch", action: CartStates.Twitch, screen: .left, popoverControl: $twitchLPopover, buttonInteraction: buttonInteraction)
                 ControlButton(title: "YouTube", action: CartStates.YouTube, screen: .left, popoverControl: $youtubeLPopover, buttonInteraction: buttonInteraction)
-                ControlButton(title: "Livestream", action: CartStates.Livestream, screen: .left, popoverControl: $livestreamLPopover, buttonInteraction: buttonInteraction)
+                ControlButton(title: "Local Livestream", action: CartStates.Livestream, screen: .left, popoverControl: $livestreamLPopover, buttonInteraction: buttonInteraction)
             }
             VStack(spacing: 20) {
                 Text("Right")
@@ -51,7 +51,7 @@ struct Control: View {
                 ControlButton(title: "Sponsors", action: CartStates.Sponsors, screen: .right, buttonInteraction: buttonInteraction)
                 ControlButton(title: "Twitch", action: CartStates.Twitch, screen: .right, popoverControl: $twitchRPopover, buttonInteraction: buttonInteraction)
                 ControlButton(title: "YouTube", action: CartStates.YouTube, screen: .right, popoverControl: $youtubeRPopover, buttonInteraction: buttonInteraction)
-                ControlButton(title: "Livestream", action: CartStates.Livestream, screen: .right, popoverControl: $livestreamRPopover, buttonInteraction: buttonInteraction)
+                ControlButton(title: "Local Livestream", action: CartStates.Livestream, screen: .right, popoverControl: $livestreamRPopover, buttonInteraction: buttonInteraction)
             }
             VStack(spacing: 20) {
                 Text("Sign")
@@ -81,7 +81,7 @@ struct Control: View {
             TextFieldPopover(title: "YouTube Video Link", messageType: "youtubeRUpdate", isPresented: $youtubeRPopover)
         }
         .sheet(isPresented: $livestreamLPopover) {
-            TextFieldPopover(title: "Livestream URL", messageType: "livestreamLUpdate", isPresented: $livestreamLPopover)
+            TextFieldPopover(title: "Local Livestream URL", messageType: "livestreamLUpdate", isPresented: $livestreamLPopover)
         }
         .sheet(isPresented: $livestreamRPopover) {
             TextFieldPopover(title: "Livestream URL", messageType: "livestreamRUpdate", isPresented: $livestreamRPopover)

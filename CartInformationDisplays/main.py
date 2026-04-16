@@ -27,6 +27,12 @@ os.makedirs(HLS_DIR_R, exist_ok=True)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     task = asyncio.create_task(matchUpdate())
+    # Auto-start FFmpeg for sides that default to localLivestream
+    if communicationBus.stateL == "localLivestream" and communicationBus.livestreamL:
+        await communicationBus._start_ffmpeg("L", communicationBus.livestreamL)
+    if communicationBus.stateR == "localLivestream" and communicationBus.livestreamR:
+        await communicationBus._start_ffmpeg("R", communicationBus.livestreamR)
+    await asyncio.sleep(3)
     try:
         yield
     finally:

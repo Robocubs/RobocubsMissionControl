@@ -25,6 +25,7 @@ class CartLEndpoint(WebSocketEndpoint):
             await websocket.send_json({"type": "twitchUpdate", "data": communicationBus.twitchL})
         if communicationBus.livestreamL:
             await websocket.send_json({"type": "livestreamUpdate", "data": communicationBus.livestreamL})
+        await websocket.send_json({"type": "stateL", "data": communicationBus.stateL})
 
     async def on_disconnect(self, websocket, close_code):
         communicationBus.cartL = None
@@ -53,6 +54,7 @@ class CartREndpoint(WebSocketEndpoint):
             await websocket.send_json({"type": "twitchUpdate", "data": communicationBus.twitchR})
         if communicationBus.livestreamR:
             await websocket.send_json({"type": "livestreamUpdate", "data": communicationBus.livestreamR})
+        await websocket.send_json({"type": "stateR", "data": communicationBus.stateR})
 
     async def on_disconnect(self, websocket, close_code):
         communicationBus.cartR = None

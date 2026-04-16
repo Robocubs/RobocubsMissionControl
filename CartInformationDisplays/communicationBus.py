@@ -17,8 +17,10 @@ class CommunicationBus:
         self.twitchL: Optional[str] = None
         self.youtubeR: Optional[str] = None
         self.twitchR: Optional[str] = None
-        self.livestreamL: Optional[str] = None
-        self.livestreamR: Optional[str] = None
+        self.livestreamL: Optional[str] = "udp://0.0.0.0:1234"
+        self.livestreamR: Optional[str] = "udp://0.0.0.0:1234"
+        self.stateL: str = "localLivestream"
+        self.stateR: str = "screensaver"
         self.matchCode: Optional[str] = None
         self._ffmpegL: Optional[asyncio.subprocess.Process] = None
         self._ffmpegR: Optional[asyncio.subprocess.Process] = None
@@ -49,10 +51,14 @@ class CommunicationBus:
     def _ffmpeg_cmd(self, stream_url: str, hls_dir: str) -> list[str]:
         return [
             "ffmpeg", "-y",
-            "-fflags", "nobuffer",
-            "-flags", "low_delay",
             "-i", stream_url,
-            "-c", "copy",
+            "-c:v", "libx264",
+            "-preset", "ultrafast",
+            "-tune", "zerolatency",
+            "-pix_fmt", "yuv420p",
+            "-g", "25",
+            "-keyint_min", "25",
+            "-sc_threshold", "0",
             "-f", "hls",
             "-hls_time", "1",
             "-hls_list_size", "3",
@@ -131,10 +137,21 @@ class CommunicationBus:
             msg_type = data.get("type")
 
             if msg_type == "state" or msg_type == "stateL" or msg_type == "stateR":
-                # Send to both carts
+                state_value = data.get("data")
+                if msg_type in ("state", "stateL"):
+                    self.stateL = state_value
+                    if state_value == "localLivestream" and self.livestreamL:
+                        asyncio.create_task(self._start_ffmpeg("L", self.livestreamL))
+                    elif state_value != "localLivestream":
+                        asyncio.create_task(self._stop_ffmpeg("L"))
+                if msg_type in ("state", "stateR"):
+                    self.stateR = state_value
+                    if state_value == "localLivestream" and self.livestreamR:
+                        asyncio.create_task(self._start_ffmpeg("R", self.livestreamR))
+                    elif state_value != "localLivestream":
+                        asyncio.create_task(self._stop_ffmpeg("R"))
                 await self.sendL(data)
                 await self.sendR(data)
-                # Confirm success
                 await self.sendMissionController({"type": "confirm", "data": "true"})
             elif msg_type == "youtubeLUpdate":
                 self.youtubeL = data.get("data")
