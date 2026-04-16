@@ -17,8 +17,8 @@ class CommunicationBus:
         self.twitchL: Optional[str] = None
         self.youtubeR: Optional[str] = None
         self.twitchR: Optional[str] = None
-        self.livestreamL: Optional[str] = "udp://0.0.0.0:1234"
-        self.livestreamR: Optional[str] = "udp://0.0.0.0:1234"
+        self.livestreamL: Optional[str] = "udp://239.255.0.0:1234"
+        self.livestreamR: Optional[str] = "udp://239.255.0.0:1234"
         self.stateL: str = "localLivestream"
         self.stateR: str = "screensaver"
         self.matchCode: Optional[str] = None
