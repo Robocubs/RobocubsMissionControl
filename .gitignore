@@ -2,3 +2,4 @@ venv/
 .env
 *.pyc
 .vscode/
+CartInformationDisplays/frontend/vite.config.js
