@@ -28,7 +28,8 @@ public func routeRequest(_ data: String) {
         case "confirm":
             let message = try JSONDecoder().decode(mainPayload<String>.self, from: Data(data.utf8))
             print("Received text message: \(message.data)")
-        case "twitchLUpdate", "twitchRUpdate", "youtubeLUpdate", "youtubeRUpdate", "matchBoard", "matchCode":
+        case "twitchLUpdate", "twitchRUpdate", "youtubeLUpdate", "youtubeRUpdate",
+             "livestreamLUpdate", "livestreamRUpdate", "matchBoard", "matchCode":
             let message = try JSONDecoder().decode(mainPayload<String>.self, from: Data(data.utf8))
             DispatchQueue.main.async {
                 PopoverCache.shared.set(message.data, for: message.type)

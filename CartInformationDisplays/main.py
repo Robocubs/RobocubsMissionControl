@@ -3,6 +3,7 @@ WebSocket.__init__.__defaults__ = (None, None, None, None, None, None, None, Fal
 
 import asyncio
 import logging
+import mimetypes
 from contextlib import asynccontextmanager
 import uvicorn
 
@@ -12,9 +13,16 @@ from fastapi.staticfiles import StaticFiles
 import os
 
 from communicationBuilder import CartLEndpoint, CartREndpoint, MissionControllerEndpoint
+from communicationBus import communicationBus, HLS_DIR_L, HLS_DIR_R
 from lifespanAsyncFunctions import matchUpdate
 
 logging.basicConfig(level=logging.INFO)
+
+mimetypes.add_type("application/vnd.apple.mpegurl", ".m3u8")
+mimetypes.add_type("video/mp2t", ".ts")
+
+os.makedirs(HLS_DIR_L, exist_ok=True)
+os.makedirs(HLS_DIR_R, exist_ok=True)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -24,6 +32,8 @@ async def lifespan(app: FastAPI):
     finally:
         task.cancel()
         await task
+        await communicationBus._stop_ffmpeg("L")
+        await communicationBus._stop_ffmpeg("R")
 
 app = FastAPI(lifespan=lifespan)
 
@@ -37,6 +47,8 @@ app.add_middleware(
 
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
 app.mount("/prod", StaticFiles(directory=os.path.join(currentDirectory, "frontend", "prod")), name="prod")
+app.mount("/hls_L", StaticFiles(directory=HLS_DIR_L), name="hls_L")
+app.mount("/hls_R", StaticFiles(directory=HLS_DIR_R), name="hls_R")
 
 app.add_websocket_route("/cartL", CartLEndpoint)
 app.add_websocket_route("/cartR", CartREndpoint)

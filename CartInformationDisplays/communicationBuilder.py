@@ -23,7 +23,9 @@ class CartLEndpoint(WebSocketEndpoint):
             await websocket.send_json({"type": "youtubeUpdate", "data": communicationBus.youtubeL})
         if communicationBus.twitchL:
             await websocket.send_json({"type": "twitchUpdate", "data": communicationBus.twitchL})
-    
+        if communicationBus.livestreamL:
+            await websocket.send_json({"type": "livestreamUpdate", "data": communicationBus.livestreamL})
+
     async def on_disconnect(self, websocket, close_code):
         communicationBus.cartL = None
         logger.info("CartL disconnected")
@@ -49,7 +51,9 @@ class CartREndpoint(WebSocketEndpoint):
             await websocket.send_json({"type": "youtubeUpdate", "data": communicationBus.youtubeR})
         if communicationBus.twitchR:
             await websocket.send_json({"type": "twitchUpdate", "data": communicationBus.twitchR})
-    
+        if communicationBus.livestreamR:
+            await websocket.send_json({"type": "livestreamUpdate", "data": communicationBus.livestreamR})
+
     async def on_disconnect(self, websocket, close_code):
         communicationBus.cartR = None
         logger.info("CartR disconnected")
@@ -92,6 +96,10 @@ class MissionControllerEndpoint(WebSocketEndpoint):
             await communicationBus.sendMissionController({"type": "youtubeRUpdate", "data": communicationBus.youtubeR})
         if communicationBus.twitchR:
             await communicationBus.sendMissionController({"type": "twitchRUpdate", "data": communicationBus.twitchR})
+        if communicationBus.livestreamL:
+            await communicationBus.sendMissionController({"type": "livestreamLUpdate", "data": communicationBus.livestreamL})
+        if communicationBus.livestreamR:
+            await communicationBus.sendMissionController({"type": "livestreamRUpdate", "data": communicationBus.livestreamR})
 
         # Send match code if available
         if communicationBus.matchCode:

@@ -14,13 +14,15 @@ public enum CartStates: String, DisplayState {
     case Sponsors = "sponsors"
     case YouTube = "youtube"
     case Twitch = "twitch"
+    case Livestream = "livestream"
     case Screensaver = "screensaver"
-    
+
     public var description: String {
         switch self {
         case .Sponsors: return "sponsors"
         case .YouTube: return "youtube"
         case .Twitch: return "twitch"
+        case .Livestream: return "livestream"
         case .Screensaver: return "screensaver"
         }
     }
