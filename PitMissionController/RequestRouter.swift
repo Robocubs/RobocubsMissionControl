@@ -49,6 +49,14 @@ public func routeRequest(_ data: String) {
             DispatchQueue.main.async {
                 PopoverCache.shared.set(message.data, for: message.type)
             }
+        case "requestStateL":
+            let state = sharedStates.stateL.rawValue
+            guard !state.isEmpty else { return }
+            socket.sendMessage(type: "stateL", data: state)
+        case "requestStateR":
+            let state = sharedStates.stateR.rawValue
+            guard !state.isEmpty else { return }
+            socket.sendMessage(type: "stateR", data: state)
         case "requestTwitchL", "requestTwitchR", "requestYoutubeL", "requestYoutubeR", "requestMatchCode":
             let cacheKeyMap = [
                 "requestTwitchL": "twitchLUpdate",
