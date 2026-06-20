@@ -2,3 +2,6 @@ venv/
 .env
 *.pyc
 .vscode/
+.claude/
+CLAUDE.md
+.DS_Store
