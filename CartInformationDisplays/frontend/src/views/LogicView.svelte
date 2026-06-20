@@ -38,13 +38,14 @@ $: if ($ws.message?.type === "state" || ($ws.message?.type === "state" + positio
 
 $: if ($ws.message?.type === "youtubeUpdate") {
     videoID = $ws.message?.data;
-    ws.sendMessage(buildMessagePackage("youtubeUpdate", true));
-
+    currentView = views.youtube;
+    ws.sendMessage(buildMessagePackage("state", views.youtube));
   }
 
 $: if ($ws.message?.type === "twitchUpdate") {
     channel = $ws.message?.data;
-    ws.sendMessage(buildMessagePackage("twitchUpdate", true));
+    currentView = views.twitch;
+    ws.sendMessage(buildMessagePackage("state", views.twitch));
   }
 </script>
 

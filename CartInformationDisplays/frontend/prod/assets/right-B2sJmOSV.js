@@ -1,0 +1,5 @@
+<<<<<<<< HEAD:CartInformationDisplays/frontend/prod/assets/right-BL-B0ZC_.js
+import{f as n,L as i,a as r,c as e,m}from"./LogicView-DRd7Z71I.js";var s=n("<main><!></main>");function d(t){var a=s(),o=e(a);i(o,{wsEndpoint:"cartR",presentationId:"2PACX-1vSToCZ6ksw75RaUtXSaVFaWlWYgFRwob0FOeRamLQrt9g-T5YBKuiYFoHSFrLfyPtXXAe8V3kbjpl86"}),r(t,a)}m(d,{target:document.getElementById("right")});
+========
+import{f as n,L as i,a as r,c as e,m}from"./LogicView-CfGxPBBq.js";var s=n("<main><!></main>");function d(t){var a=s(),o=e(a);i(o,{wsEndpoint:"cartR",presentationId:"2PACX-1vSToCZ6ksw75RaUtXSaVFaWlWYgFRwob0FOeRamLQrt9g-T5YBKuiYFoHSFrLfyPtXXAe8V3kbjpl86"}),r(t,a)}m(d,{target:document.getElementById("right")});
+>>>>>>>> main:CartInformationDisplays/frontend/prod/assets/right-B2sJmOSV.js

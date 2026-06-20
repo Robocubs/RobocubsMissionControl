@@ -30,10 +30,7 @@ class CartLEndpoint(WebSocketEndpoint):
         logger.info("CartL disconnected")
     
     async def on_receive(self, websocket, data):
-        if data.get("type") == "state":
-            communicationBus.screenStateL = data.get("data")
-        else:
-            logger.info(f"CartL received unknown type: {data.get('type')}")
+        await communicationBus.recieveL(data)
 
 class CartREndpoint(WebSocketEndpoint):
     encoding = "json"
@@ -59,10 +56,7 @@ class CartREndpoint(WebSocketEndpoint):
         logger.info("CartR disconnected")
     
     async def on_receive(self, websocket, data):
-        if data.get("type") == "state":
-            communicationBus.screenStateR = data.get("data")
-        else:
-            logger.info(f"CartR received unknown type: {data.get('type')}")
+        await communicationBus.recieveR(data)
 
 class MissionControllerEndpoint(WebSocketEndpoint):
     encoding = "json"
@@ -88,7 +82,7 @@ class MissionControllerEndpoint(WebSocketEndpoint):
         logger.info(f"MissionController received: {data}")
 
 async def _initialHandshake():
-    matches = await getMatches(fresh=True)
+    matches = await getMatches(event_code=communicationBus.matchCode, fresh=True)
     if matches != []:
         await communicationBus.sendMissionController({"type": "matchPackage", "data": matches})
 
