@@ -22,10 +22,13 @@ struct Control: View {
     @State private var twitchRPopover = false
     @State private var youtubeLPopover = false
     @State private var youtubeRPopover = false
+    @State private var localVideoLPopover = false
+    @State private var localVideoRPopover = false
     @State private var matchCodePopover = false
 
     var anyPopoverOpen: Bool {
-        twitchLPopover || twitchRPopover || youtubeLPopover || youtubeRPopover || matchCodePopover
+        twitchLPopover || twitchRPopover || youtubeLPopover || youtubeRPopover
+            || localVideoLPopover || localVideoRPopover || matchCodePopover
     }
 
     var body: some View {
@@ -38,6 +41,7 @@ struct Control: View {
                 ControlButton(title: "Sponsors", action: CartStates.Sponsors, screen: .left, buttonInteraction: buttonInteraction)
                 ControlButton(title: "Twitch", action: CartStates.Twitch, screen: .left, popoverControl: $twitchLPopover, buttonInteraction: buttonInteraction)
                 ControlButton(title: "YouTube", action: CartStates.YouTube, screen: .left, popoverControl: $youtubeLPopover, buttonInteraction: buttonInteraction)
+                ControlButton(title: "Local Video", action: CartStates.LocalVideo, screen: .left, popoverControl: $localVideoLPopover, buttonInteraction: buttonInteraction)
             }
             VStack(spacing: 20) {
                 Text("Right")
@@ -47,6 +51,7 @@ struct Control: View {
                 ControlButton(title: "Sponsors", action: CartStates.Sponsors, screen: .right, buttonInteraction: buttonInteraction)
                 ControlButton(title: "Twitch", action: CartStates.Twitch, screen: .right, popoverControl: $twitchRPopover, buttonInteraction: buttonInteraction)
                 ControlButton(title: "YouTube", action: CartStates.YouTube, screen: .right, popoverControl: $youtubeRPopover, buttonInteraction: buttonInteraction)
+                ControlButton(title: "Local Video", action: CartStates.LocalVideo, screen: .right, popoverControl: $localVideoRPopover, buttonInteraction: buttonInteraction)
             }
             VStack(spacing: 20) {
                 Text("Sign")
@@ -77,6 +82,12 @@ struct Control: View {
         }
         .sheet(isPresented: $matchCodePopover) {
             TextFieldPopover(title: "Match Code", messageType: "matchCode", isPresented: $matchCodePopover)
+        }
+        .sheet(isPresented: $localVideoLPopover) {
+            MediaLibraryPopover(side: "L", isPresented: $localVideoLPopover)
+        }
+        .sheet(isPresented: $localVideoRPopover) {
+            MediaLibraryPopover(side: "R", isPresented: $localVideoRPopover)
         }
         .onChange(of: anyPopoverOpen) { _, isOpen in
             if isOpen {
