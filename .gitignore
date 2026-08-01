@@ -3,7 +3,13 @@ venv/
 *.pyc
 __pycache__/
 .vscode/
-.claude/
+.claude/*
+# Project-scoped slash commands are meant to be shared via the repo, unlike
+# the rest of .claude/ (local session state, hooks, settings). A trailing-
+# slash directory ignore can never be un-excluded by a later negation —
+# git won't traverse into it at all — so .claude/* (glob, not dir-ignore)
+# is required here for !.claude/commands/ below to actually work.
+!.claude/commands/
 CLAUDE.md
 .DS_Store
 CartInformationDisplays/media/
