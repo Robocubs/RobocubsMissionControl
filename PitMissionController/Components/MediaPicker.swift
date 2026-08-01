@@ -53,7 +53,11 @@ struct MediaPicker: UIViewControllerRepresentable {
                 return
             }
 
-            provider.loadFileRepresentation(for: .movie) { [parent] url, error in
+            // The completion handler here is 3 arguments, not 2 — the
+            // middle Bool ("isInPlace") isn't something we need: we copy
+            // synchronously below regardless of its value, since the URL is
+            // deleted the instant this closure returns either way.
+            _ = provider.loadFileRepresentation(for: .movie) { [parent] url, _, error in
                 guard let url, error == nil else {
                     DispatchQueue.main.async { parent.onCancel?() }
                     return

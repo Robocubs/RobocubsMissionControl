@@ -8,6 +8,7 @@
 //  instance published globally rather than threaded through every view.
 //
 
+import Combine
 import Foundation
 
 /// One uploaded video as known to the Pi's media library.

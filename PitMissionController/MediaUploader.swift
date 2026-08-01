@@ -17,6 +17,7 @@ struct UploadResult: Codable {
     let url: String
 }
 
+@MainActor
 final class MediaUploader: NSObject, URLSessionTaskDelegate {
     private var progressHandler: ((Double) -> Void)?
 
