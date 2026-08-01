@@ -242,7 +242,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		E452D9A92E258F8600D30C66 /* Debug */ = {
+		E452D9A92E258F8600D30C66 /* Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -305,7 +305,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
-			name = Debug;
+			name = Beta;
 		};
 		E452D9AA2E258F8600D30C66 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -365,7 +365,7 @@
 			};
 			name = Release;
 		};
-		E452D9BB2E258FC700D30C66 /* Debug */ = {
+		E452D9BB2E258FC700D30C66 /* Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = MissionControl;
@@ -377,6 +377,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MatchStatusDisplay/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "MatchStatusDisplay[Beta]";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Used to communicate with Mission Controller";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Used to communicate with Mission Controller";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -389,7 +390,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DeKlerk.Quincy.MatchStatusDisplay;
+				PRODUCT_BUNDLE_IDENTIFIER = com.robocubs.matchstatusdisplay.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -399,7 +400,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = Beta;
 		};
 		E452D9BC2E258FC700D30C66 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -425,7 +426,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DeKlerk.Quincy.MatchStatusDisplay;
+				PRODUCT_BUNDLE_IDENTIFIER = com.robocubs.matchstatusdisplay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -437,7 +438,7 @@
 			};
 			name = Release;
 		};
-		E452D9CA2E259C1900D30C66 /* Debug */ = {
+		E452D9CA2E259C1900D30C66 /* Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = MissionControl;
@@ -448,6 +449,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PitMissionController/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "PitMissionController[Beta]";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Used to communicate with Match Status Display";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Used to communicate with Match Status Display";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -460,7 +462,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DeKlerk.Quincy.PitMissionController;
+				PRODUCT_BUNDLE_IDENTIFIER = com.robocubs.pitmissioncontroller.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -469,7 +471,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = Beta;
 		};
 		E452D9CB2E259C1900D30C66 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -494,7 +496,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DeKlerk.Quincy.PitMissionController;
+				PRODUCT_BUNDLE_IDENTIFIER = com.robocubs.pitmissioncontroller;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -511,7 +513,7 @@
 		E452D99B2E258F8300D30C66 /* Build configuration list for PBXProject "RobocubsMissionControl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E452D9A92E258F8600D30C66 /* Debug */,
+				E452D9A92E258F8600D30C66 /* Beta */,
 				E452D9AA2E258F8600D30C66 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -520,7 +522,7 @@
 		E452D9BA2E258FC700D30C66 /* Build configuration list for PBXNativeTarget "MatchStatusDisplay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E452D9BB2E258FC700D30C66 /* Debug */,
+				E452D9BB2E258FC700D30C66 /* Beta */,
 				E452D9BC2E258FC700D30C66 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -529,7 +531,7 @@
 		E452D9C92E259C1900D30C66 /* Build configuration list for PBXNativeTarget "PitMissionController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E452D9CA2E259C1900D30C66 /* Debug */,
+				E452D9CA2E259C1900D30C66 /* Beta */,
 				E452D9CB2E259C1900D30C66 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
