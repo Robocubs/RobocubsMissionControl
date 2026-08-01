@@ -68,7 +68,7 @@ public class WebSocketManager {
         }
     }
     
-    public func sendMessage(type: String, data: String) {
+    public func sendMessage<T: Codable>(type: String, data: T) {
         let payload = mainPayload(type: type, data: data)
         do {
             let jsonData = try JSONEncoder().encode(payload)
@@ -83,5 +83,10 @@ public class WebSocketManager {
     }
 }
 
-public var socket = WebSocketManager(urlString: "ws://192.168.105.10:1701/missionController")
-//public var socket = WebSocketManager(urlString: "ws://10.7.14.113:1701/missionController")
+/// Single source of truth for the Pi's address, so the websocket URL and the
+/// media upload/playback HTTP URLs can never drift apart.
+public let serverHost = "192.168.105.10:1701"
+//public let serverHost = "10.7.14.113:1701"
+public let mediaBaseURL = URL(string: "http://\(serverHost)")!
+
+public var socket = WebSocketManager(urlString: "ws://\(serverHost)/missionController")

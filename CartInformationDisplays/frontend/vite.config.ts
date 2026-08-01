@@ -17,15 +17,19 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      // main.py/uvicorn actually serves on 1701 (see requirements.txt /
+      // missionControlServer.service) — 8010 here was stale and pointed
+      // dev-server websockets/API calls nowhere.
       '/cartL': {
-        target: 'ws://localhost:8010',
+        target: 'ws://localhost:1701',
         ws: true,
       },
       '/cartR': {
-        target: 'ws://localhost:8010',
+        target: 'ws://localhost:1701',
         ws: true,
       },
-      '/api': 'http://localhost:8010'
+      '/api': 'http://localhost:1701',
+      '/media': 'http://localhost:1701'
     }
   }
 })

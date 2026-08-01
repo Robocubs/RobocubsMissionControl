@@ -1,7 +1,9 @@
 venv/
 .env
 *.pyc
+__pycache__/
 .vscode/
 .claude/
 CLAUDE.md
 .DS_Store
+CartInformationDisplays/media/

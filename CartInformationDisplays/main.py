@@ -12,18 +12,31 @@ from fastapi.staticfiles import StaticFiles
 import os
 
 from communicationBuilder import CartLEndpoint, CartREndpoint, MissionControllerEndpoint
-from lifespanAsyncFunctions import matchUpdate
+from lifespanAsyncFunctions import mediaJanitor, matchUpdate
+from mediaLibrary import FILES_DIR, ensureDirectories
+from mediaRoutes import router as mediaRouter
 
 logging.basicConfig(level=logging.INFO)
 
+# media/ is gitignored, so it won't exist on a fresh checkout. This must run
+# before the StaticFiles mount below: that raises at mount time if the
+# directory is missing, which under systemd's Restart=always is a crash
+# loop with no websocket left to recover through.
+ensureDirectories()
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    task = asyncio.create_task(matchUpdate())
+    tasks = [asyncio.create_task(matchUpdate()), asyncio.create_task(mediaJanitor())]
     try:
         yield
     finally:
-        task.cancel()
-        await task
+        for task in tasks:
+            task.cancel()
+        # return_exceptions=True: cancelling a task makes it raise
+        # CancelledError, and `await`ing that directly (the original
+        # single-task version of this) would propagate it right back out
+        # of shutdown. gather() with this flag collects it instead.
+        await asyncio.gather(*tasks, return_exceptions=True)
 
 app = FastAPI(lifespan=lifespan)
 
@@ -37,6 +50,9 @@ app.add_middleware(
 
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
 app.mount("/prod", StaticFiles(directory=os.path.join(currentDirectory, "frontend", "prod")), name="prod")
+
+app.include_router(mediaRouter)
+app.mount("/media", StaticFiles(directory=FILES_DIR), name="media")
 
 app.add_websocket_route("/cartL", CartLEndpoint)
 app.add_websocket_route("/cartR", CartREndpoint)

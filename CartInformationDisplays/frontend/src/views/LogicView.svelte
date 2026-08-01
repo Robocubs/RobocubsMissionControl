@@ -2,6 +2,7 @@
   import Sponsors from "./Sponsors.svelte";
   import YouTube from "./YouTube.svelte";
   import Twitch from "./Twitch.svelte";
+  import LocalVideo from "./LocalVideo.svelte";
   import Screensaver from "./Screensaver.svelte";
 
   import createWebsocketTunnel from "../websocketTunnel";
@@ -17,18 +18,21 @@
     sponsors: "sponsors",
     youtube: "youtube",
     twitch: "twitch",
+    localvideo: "localvideo",
     screensaver: "screensaver"
   }
 
   const player = {
     youtube: "youtube",
     twitch: "twitch"
-  } 
+  }
 
   let currentView = views.screensaver;
   let streamType = player.youtube;
   let videoID = "";
   let channel = "";
+  type LocalMedia = { id: string; url: string; name?: string; duration?: number } | null;
+  let localMedia: LocalMedia = null;
 
 $: if ($ws.message?.type === "state" || ($ws.message?.type === "state" + position)) {
     const key = $ws.message?.data as keyof typeof views;
@@ -42,6 +46,14 @@ $: if ($ws.message?.type === "youtubeUpdate") {
 $: if ($ws.message?.type === "twitchUpdate") {
     channel = $ws.message?.data;
   }
+
+$: if ($ws.message?.type === "localVideoUpdate") {
+    localMedia = ($ws.message?.data as unknown as LocalMedia) ?? null;
+  }
+
+$: if ($ws.message?.type === "localVideoResume") {
+    localMedia = ($ws.message?.data as unknown as LocalMedia) ?? null;
+  }
 </script>
 
 <main>
@@ -51,6 +63,8 @@ $: if ($ws.message?.type === "twitchUpdate") {
         <YouTube {videoID} />
     {:else if currentView === "twitch"}
         <Twitch {channel} />
+    {:else if currentView === "localvideo"}
+        <LocalVideo media={localMedia} {ws} />
     {:else if currentView === "screensaver"}
       <Screensaver position={position} />
   {/if}
