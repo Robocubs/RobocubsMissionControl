@@ -49,19 +49,33 @@ If either is missing, tell the user exactly what to install/connect and why, the
 
 ### 3. PitMissionController (iPad app)
 
-1. Confirm Xcode via the prerequisites check above.
+1. Confirm Xcode via the prerequisites check above. If `xcode-select -p` prints `/Library/Developer/CommandLineTools` instead of an Xcode.app path even though Xcode is installed, it needs `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer` — **and that must be run by the user in a real terminal window they opened themselves**, not via a `!`-prefixed command in this session; `sudo` there has no TTY to prompt on and fails every time.
 2. **If available**:
-   - `xcodebuild build -project RobocubsMissionControl.xcodeproj -scheme PitMissionController -configuration Beta -destination 'platform=iOS Simulator,name=<a booted device>'`
-   - Boot a simulator, install and launch the app pointed at a locally-running Pi backend (temporarily edit `serverHost` in `WebsocketEngine.swift`, or run the backend reachable at that address — revert the edit after testing, don't leave it in the diff).
-   - Exercise by hand: the YouTube popover (paste a link, confirm the cart state updates), Twitch (same), Local Video (library sheet opens, upload flow completes, transport controls send commands), and the Match Board button (confirms `MatchStore` populates and renders — this is the mission-controller half of the match-board-critical path).
-   - Confirm no crash and no new runtime console errors.
-3. **If not available**: fall back to a structural review — diff every changed Swift file against `main`, confirm the YouTube/Twitch/`matchPackage`/Bluetooth code paths are behaviorally untouched (same case labels, same function bodies, no signature changes to anything they call), and confirm every new AVFoundation/PhotosUI/URLSession API call has been checked against actual Apple documentation rather than assumed from memory. State plainly in the report that this is not equivalent to a real build and a compile error is still possible.
+   - Real build command (tested, works as of Xcode 26.6):
+     ```
+     xcodebuild build -project RobocubsMissionControl.xcodeproj -scheme PitMissionController \
+       -configuration Beta -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M5)'
+     ```
+     Swap the device name for whatever `xcrun simctl list devices available` shows. Grep the output for `error:` — don't trust "BUILD SUCCEEDED" alone if you scrolled past a failed-then-recovered step; grep is more reliable than reading tail output.
+   - Boot + install + launch + screenshot, tested pattern:
+     ```
+     xcrun simctl boot "iPad Pro 13-inch (M5)"
+     xcrun simctl install "iPad Pro 13-inch (M5)" <path to .app in DerivedData/Build/Products/Beta-iphonesimulator/>
+     xcrun simctl launch "iPad Pro 13-inch (M5)" $(plutil -extract CFBundleIdentifier raw <app>/Info.plist)
+     xcrun simctl io "iPad Pro 13-inch (M5)" screenshot /tmp/shot.png   # then Read the PNG
+     ```
+     Screenshot immediately (within ~1.5s of launch) if you want the live `Control` view — `ViewController.swift` has a 5-second idle `TimeoutManager` that fades to the branded Screensaver view, which looks identical to a stuck launch screen at a glance. Don't mistake one for the other.
+   - Point the app at a locally-running Pi backend by temporarily editing `serverHost` in `WebsocketEngine.swift` to `127.0.0.1:1701` — Simulator shares the host Mac's network stack, so `localhost`/`127.0.0.1` reaches a backend running right there on the Mac directly, no LAN IP needed. **Revert this edit before finishing** (`git checkout -- PitMissionController/WebsocketEngine.swift` if nothing else in that file changed, otherwise edit it back by hand) — never leave a `127.0.0.1` serverHost in a commit.
+   - Confirm the connection is real, not just "no crash": `xcrun simctl spawn <device> log show --predicate 'process == "PitMissionController"' --last 1m | grep -i "101\|switching protocols"` — a successful websocket handshake shows `status 101`. Also grep that same log for `fail|error|crash` (excluding the benign `UIFocus`/`EventDeferring` noise every app produces) as a general crash/exception check.
+   - To exercise the local-video / library-decode path without UI automation: hit the real HTTP upload endpoint (`curl -X POST --data-binary @clip.mp4 ...`) while the app is connected as the mission controller — the backend pushes a real `localVideoLibrary` message to the live app over its existing websocket, which is a genuine end-to-end test of the actual `MediaItem`/`mainPayload<[MediaItem]>` Swift decode path, not just something type-checked in isolation.
+   - There is no XCUITest target in this project and `simctl` cannot synthesize taps, so fully automated button-tap testing (pasting into the YouTube popover, walking through the upload sheet) isn't possible without adding one. Say this plainly rather than claiming interactive flows were "tested" when only launch, connection, rendering, and live decode were.
+3. **If not available**: fall back to a structural review — diff every changed Swift file against `main`, confirm the YouTube/Twitch/`matchPackage`/Bluetooth code paths are behaviorally untouched (same case labels, same function bodies, no signature changes to anything they call), and confirm every new AVFoundation/PhotosUI/URLSession API call has been checked against actual Apple documentation rather than assumed from memory. State plainly in the report that this is not equivalent to a real build and a compile error is still possible — SourceKit's live diagnostics in this environment are unreliable for cross-file symbols in new/uncommitted files (confirmed: it flags pre-existing, working symbols like `mainPayload` and `BluetoothCentralManager` as unresolved too) and cannot be trusted as a build substitute either way.
 
 ### 4. MatchStatusDisplay (iPad app)
 
-1. Same Xcode prerequisite as step 3.
-2. **If available**: build and run in Simulator, confirm the MatchBoard and Screensaver views render correctly on their own.
-3. **Hard limitation regardless of Xcode**: this app's only inbound data path is Bluetooth LE (`BluetoothPeripheralManager.swift` receiving from `PitMissionController`'s `BluetoothCentralManager.swift`). **iOS Simulator does not support CoreBluetooth central/peripheral roles at all** — two simulator instances cannot exchange BLE data with each other. This means the actual "match board updates on both apps" sync can only be *fully* verified on two physical iPads, no matter what's installed on this machine. Say so explicitly rather than implying Simulator testing covers it.
+1. Same Xcode prerequisite as step 3, same build/install/launch pattern (bundle id differs — extract it the same way via `plutil -extract CFBundleIdentifier raw`).
+2. **If available**: build and run in Simulator, confirm the MatchBoard and Screensaver views render correctly on their own (no websocket to point anywhere for this one — its only inbound path is BLE, see below).
+3. **Hard limitation regardless of Xcode, confirmed empirically**: this app's only inbound data path is Bluetooth LE (`BluetoothPeripheralManager.swift` receiving from `PitMissionController`'s `BluetoothCentralManager.swift`). **iOS Simulator does not support CoreBluetooth central/peripheral roles at all.** Launching `MatchStatusDisplay` in Simulator produces `(CoreBluetooth) XPC connection invalid` in the device log every time — this is expected, not a bug, and does not crash the app. Two simulator instances cannot exchange BLE data with each other. The actual "match board updates on both apps" sync can only be *fully* verified on two physical iPads, no matter what's installed on this machine. Say so explicitly rather than implying Simulator testing covers it.
 4. Mitigate by checking scope, not by trying to fake BLE: `git diff main -- PitMissionController/BluetoothCentralManager.swift MatchStatusDisplay/BluetoothPeripheralManager.swift Shared/Views/MatchBoard.swift PitMissionController/MatchStore.swift` (adjust paths to whatever the actual match-data files are). If this feature branch touches none of them, say so plainly — that's a real, high-confidence reason to believe the BLE sync path is unaffected, not a shrug.
 
 ### 5. Report
