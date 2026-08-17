@@ -88,10 +88,18 @@ finish() {
 gitC() { git -c safe.directory="$repoRoot" "$@"; }
 
 # --- validate argument ---------------------------------------------------
-# Positional (SSH) takes priority over $targetBranch (remote.it argument)
-# so a manual override always works even if the saved script argument
-# is stale.
-targetBranch="${1:-${targetBranch:-}}"
+# $1/$2/$3 are reserved by remote.it itself (jobid / API server / a second
+# ID — confirmed by uploading a throwaway diagnostic script and inspecting
+# what actually showed up in each) and are NOT the "targetBranch" Script
+# Argument's value, even though it's also injected as a same-named env
+# var. Reading $1 unconditionally here previously grabbed remote.it's job
+# ID instead of the real branch on every run via remote.it. So: over SSH,
+# read the positional argument; via remote.it, read $targetBranch only.
+if [[ "$viaRemoteIt" -eq 1 ]]; then
+    targetBranch="${targetBranch:-}"
+else
+    targetBranch="${1:-}"
+fi
 case "$targetBranch" in
     ground-control|main)
         ;;
