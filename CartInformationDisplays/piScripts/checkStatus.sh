@@ -39,7 +39,7 @@ set -uo pipefail   # no -e: keep gathering remaining values even if one step err
 
 repoRoot="/home/missioncontrol/RobocubsMissionControl"
 serviceName="missioncontrol.service"
-knownBranches=("ground-control" "main")   # kept in sync with deployBranch.sh's targetBranch check
+knownBranches=("ground-control" "main")   # kept in sync with redeploy.sh's targetBranch check
 
 if [[ -n "${GRAPHQL_API_PATH:-}" && -n "${JOB_DEVICE_ID:-}" ]]; then
     report() {
