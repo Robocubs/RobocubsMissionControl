@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # deployBranch.sh — switch the Pi's checkout to a known branch and restart
-# missionControlServer.service.
+# missioncontrol.service.
 #
 # Run manually over SSH, e.g.:
 #   ssh missioncontrol@192.168.105.10 '~/deployBranch.sh ground-control'
@@ -16,7 +16,7 @@
 # the login session's cgroup, not the service's — systemd's default
 # KillMode=control-group never touches it, and blocking lets you see the
 # restart actually finish before the command returns. If this is ever wired
-# up to be spawned FROM missionControlServer.service itself (e.g. triggered
+# up to be spawned FROM missioncontrol.service itself (e.g. triggered
 # by a websocket message), a blocking restart will DEADLOCK: the manager
 # waits for the unit's cgroup to empty before restarting it, and that cgroup
 # would contain this script, which is itself waiting on `systemctl`. Don't
@@ -28,11 +28,11 @@
 set -euo pipefail
 
 # --- configuration -----------------------------------------------------
-# Paths below are taken from missionControlServer.service (WorkingDirectory /
-# ExecStart), not verified against the actual Pi. Adjust here if they differ.
+# Verified against the actual Pi on 2026-08-17 (repoRoot via `ls ~`,
+# serviceName via `systemctl list-units`).
 repoRoot="/home/missioncontrol/RobocubsMissionControl"
 serverDirectory="$repoRoot/CartInformationDisplays"
-serviceName="missionControlServer.service"
+serviceName="missioncontrol.service"
 
 export GIT_TERMINAL_PROMPT=0   # never hang on a credential prompt
 
