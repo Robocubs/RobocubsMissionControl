@@ -10,7 +10,6 @@ __pycache__/
 # git won't traverse into it at all — so .claude/* (glob, not dir-ignore)
 # is required here for !.claude/commands/ below to actually work.
 !.claude/commands/
-CLAUDE.md
 .DS_Store
 xcuserdata/
 CartInformationDisplays/media/
